@@ -54,7 +54,7 @@ jobs:
 
       - name: Extract metadata for image
         id: metadata
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ matrix.image.registry }}/${{ matrix.image.name }}
 
