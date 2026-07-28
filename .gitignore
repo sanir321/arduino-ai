@@ -29,3 +29,10 @@ stderr2.log
 stdout2.log
 webpack-build.log
 *.log
+
+# Debug / ad-hoc test artifacts
+electron_spawn_test.*
+electron_test_*
+full_launch_test*
+simulate_backend.*
+spawn_test.*

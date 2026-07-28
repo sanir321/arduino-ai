@@ -3,7 +3,6 @@ import {
   LanguageModelRegistry,
   LanguageModelRequest,
   LanguageModelResponse,
-  LanguageModelStreamResponse,
   LanguageModelStreamResponsePart,
 } from '@theia/ai-core/lib/common';
 import type { CancellationToken } from '@theia/core/lib/common/cancellation';
@@ -12,6 +11,11 @@ import type { FrontendApplicationContribution } from '@theia/core/lib/browser/fr
 
 const KILO_API_URL = 'https://api.kilo.ai/api/gateway';
 const KILO_MODEL = 'kilo-auto/free';
+const REQUEST_TIMEOUT_MS = 30_000;
+
+function getApiKey(): string {
+  return process.env.KILO_API_KEY || '';
+}
 
 async function kiloRequest(
   messages: { role: string; content: string }[],
@@ -26,12 +30,18 @@ async function kiloRequest(
   if (tools && tools.length > 0) {
     body.tools = tools;
   }
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  const apiKey = getApiKey();
+  if (apiKey) {
+    headers['Authorization'] = `Bearer ${apiKey}`;
+  }
   return fetch(`${KILO_API_URL}/chat/completions`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify(body),
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
 }
 
@@ -93,13 +103,20 @@ export class KiloLanguageModel implements LanguageModel {
     const decoder = new TextDecoder();
 
     const asyncIterable: AsyncIterable<LanguageModelStreamResponsePart> = {
-      [Symbol.asyncIterator]() {
+      [Symbol.asyncIterator](): AsyncIterator<LanguageModelStreamResponsePart> {
         let buffer = '';
         let done = false;
+        let cancelled = false;
         return {
-          async next() {
+          async next(): Promise<IteratorResult<LanguageModelStreamResponsePart>> {
             if (done) return { done: true, value: undefined };
             while (true) {
+              if (cancellationToken?.isCancellationRequested) {
+                cancelled = true;
+                reader.cancel();
+                done = true;
+                return { done: true, value: undefined };
+              }
               const { value, done: readerDone } = await reader.read();
               if (readerDone) {
                 done = true;
@@ -137,11 +154,16 @@ export class KiloLanguageModel implements LanguageModel {
               }
             }
           },
+          async return(): Promise<IteratorResult<LanguageModelStreamResponsePart>> {
+            if (!cancelled) reader.cancel();
+            done = true;
+            return { done: true, value: undefined };
+          },
         };
       },
     };
 
-    return { stream: asyncIterable } as LanguageModelStreamResponse;
+    return { stream: asyncIterable } as LanguageModelResponse;
   }
 }
 

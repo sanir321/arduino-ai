@@ -6,8 +6,6 @@ import {
 } from '@theia/ai-chat/lib/common/chat-agents';
 import {
   ToolRequest,
-  PromptTemplate,
-  AgentSpecificVariables,
   ToolInvocationRegistry,
 } from '@theia/ai-core/lib/common';
 
@@ -70,8 +68,8 @@ export class ArduinoChatAgent extends AbstractStreamParsingChatAgent {
   readonly name = 'Arduino Assistant';
   readonly description = 'Expert Arduino assistant for writing, compiling, uploading sketches, managing libraries and boards, and debugging embedded projects.';
   readonly variables: string[] = [];
-  readonly promptTemplates: PromptTemplate[] = [];
-  readonly agentSpecificVariables: AgentSpecificVariables[] = [];
+  readonly promptTemplates = [];
+  readonly agentSpecificVariables = [];
   readonly functions: string[] = ARDUINO_TOOLS;
   override readonly locations: ChatAgentLocation[] = [ChatAgentLocation.Panel];
   override readonly iconClass = 'codicon codicon-tools';

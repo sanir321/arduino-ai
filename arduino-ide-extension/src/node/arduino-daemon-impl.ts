@@ -87,9 +87,27 @@ export class ArduinoDaemonImpl
       return port;
     } catch (err) {
       return retry(
-        () => {
+        async () => {
+          this.toDispose.dispose();
           this.onError(err);
-          return this.start();
+          const cliPath = this.getExecPath();
+          this.onData(`Retrying daemon from ${cliPath}...`);
+          const { daemon, port } = await this.spawnDaemonProcess();
+          this.toDispose.pushAll([
+            Disposable.create(() => {
+              if (daemon.pid) {
+                this.processUtils.terminateProcessTree(daemon.pid);
+                this.fireDaemonStopped();
+              } else {
+                throw new Error(
+                  'The CLI Daemon process does not have a PID. IDE2 could not stop the CLI daemon.'
+                );
+              }
+            }),
+          ]);
+          this.fireDaemonStarted(port);
+          this.onData('Daemon is running.');
+          return port;
         },
         1_000,
         5
@@ -200,6 +218,7 @@ export class ArduinoDaemonImpl
             ready.reject(
               new Error(`Received a NaN port from the CLI: ${port}`)
             );
+            return;
           }
           ready.resolve({ daemon, port: portNumber });
         }

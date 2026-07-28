@@ -12,6 +12,19 @@ import { EditorManager } from '../theia/editor/editor-manager';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
 import { FileService } from '@theia/filesystem/lib/browser/file-service';
 
+function safeParseArgs(argString: string): any {
+  try {
+    const args = JSON.parse(argString);
+    if (args && typeof args === 'object') {
+      delete args.__proto__;
+      delete args.constructor;
+    }
+    return args || {};
+  } catch {
+    throw new Error(`Invalid tool arguments: not valid JSON`);
+  }
+}
+
 // ---- Board List ----
 
 @injectable()
@@ -76,7 +89,7 @@ export class BoardSelectToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const args = JSON.parse(argString);
+        const args = safeParseArgs(argString);
         const currentConfig =
           this.boardsServiceProvider.boardsConfig || emptyBoardsConfig;
         const update: Record<string, unknown> = {};
@@ -116,7 +129,7 @@ export class LibrarySearchToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const { query } = JSON.parse(argString);
+        const { query } = safeParseArgs(argString);
         const results = await this.libraryService.search({
           query,
           type: 'All',
@@ -165,7 +178,7 @@ export class LibraryInstallToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const { name, version } = JSON.parse(argString);
+        const { name, version } = safeParseArgs(argString);
         const results = await this.libraryService.search({
           query: name,
           type: 'All',
@@ -391,7 +404,7 @@ export class SerialMonitorToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const args = JSON.parse(argString);
+        const args = safeParseArgs(argString);
         const action = args.action || 'status';
 
         const config =
@@ -472,7 +485,7 @@ export class LibraryUninstallToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const { name } = JSON.parse(argString);
+        const { name } = safeParseArgs(argString);
         const installed = await this.libraryService.list({
           libraryName: name,
         });
@@ -521,7 +534,7 @@ export class BoardManagerInstallToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const { query, version } = JSON.parse(argString);
+        const { query, version } = safeParseArgs(argString);
         const searchResults = await this.boardsService.searchBoards({ query });
         if (!searchResults || searchResults.length === 0) {
           return `No board platforms found matching "${query}".`;
@@ -601,7 +614,7 @@ export class FileExplorerToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const { path: relPath } = JSON.parse(argString);
+        const { path: relPath } = safeParseArgs(argString);
         const workspace = this.workspaceService.workspace;
         if (!workspace || !workspace.resource) {
           return 'No workspace is open. Open a folder first.';
@@ -680,7 +693,7 @@ export class CodeEditToolProvider implements ToolProvider {
         },
       },
       handler: async (argString: string) => {
-        const args = JSON.parse(argString);
+        const args = safeParseArgs(argString);
         const editorWidget = this.editorManager.currentEditor;
         if (!editorWidget) {
           return 'No file is currently open. Open a file first.';

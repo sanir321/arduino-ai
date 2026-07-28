@@ -126,7 +126,9 @@ export abstract class Contribution
 
   @postConstruct()
   protected init(): void {
-    this.appStateService.reachedState('ready').then(() => this.onReady());
+    this.appStateService.reachedState('ready')
+      .then(() => this.onReady())
+      .catch((err) => this.logger.error('Contribution.onReady failed', err));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function, unused-imports/no-unused-vars

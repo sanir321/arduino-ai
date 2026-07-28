@@ -29,8 +29,10 @@
     "prepare": "theia download:plugins",
     "prebuild": "rimraf lib",
     "build": "theia build",
+    "postbuild": "node -e \"const fs=require('fs-extra');const src='../arduino-ide-extension/lib/node/resources';const dst='lib/backend/resources';if(fs.existsSync(src)){fs.copySync(src,dst,{overwrite:true});console.log('Resources copied to '+dst);}\"",
     "prebuild:dev": "yarn prebuild",
     "build:dev": "theia build --config webpack.dev.js --mode development",
+    "postbuild:dev": "yarn postbuild",
     "start": "theia start --plugins=local-dir:../plugins",
     "watch": "theia build --config webpack.dev.js --mode development --watch",
     "rebuild": "theia rebuild:browser --cacheRoot .. && theia rebuild:electron --cacheRoot .."
