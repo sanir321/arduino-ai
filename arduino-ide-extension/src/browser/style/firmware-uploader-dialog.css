@@ -1,0 +1,39 @@
+#firmware-uploader-dialog-container > .dialogBlock {
+    width: 600px;
+}
+
+.firmware-uploader-dialog .theia-select {
+    border: var(--arduino-border-subtle) !important;
+    border-radius: var(--arduino-radius-md);
+    transition: border-color var(--arduino-transition-fast);
+}
+
+.firmware-uploader-dialog .theia-select:hover {
+    border-color: var(--theia-focusBorder) !important;
+}
+
+.firmware-uploader-dialog .arduino-select__control {
+    height: 32px;
+    background: var(--theia-input-background) !important;
+    border-radius: var(--arduino-radius-md);
+}
+
+.firmware-uploader-dialog .dialogRow > button {
+    margin-right: var(--arduino-space-xs);
+}
+
+.firmware-uploader-dialog #firmware-select {
+    flex: unset;
+}
+
+.firmware-uploader-dialog .success {
+    color: var(--theia-testing-foreground);
+}
+
+.firmware-uploader-dialog .warn {
+    color: var(--theia-errorForeground);
+}
+
+.firmware-uploader-dialog .status-icon {
+    margin-right: var(--arduino-space-md);
+}

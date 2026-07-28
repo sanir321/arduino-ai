@@ -1,0 +1,122 @@
+/* ── Dialog Overlay ── */
+.p-Widget.dialogOverlay {
+    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.p-Widget.dialogOverlay .dialogBlock {
+    border-radius: var(--arduino-radius-xl);
+    box-shadow: var(--arduino-shadow-xl);
+    margin: 16px 24px;
+    border: var(--arduino-border-subtle);
+    max-width: calc(100% - 104px) !important;
+    min-width: 420px;
+    max-height: 560px;
+    padding: 0 var(--arduino-space-xl);
+    animation: dialogFadeIn 200ms ease-out;
+}
+
+@keyframes dialogFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Dialog Title ── */
+.p-Widget.dialogOverlay .dialogBlock .dialogTitle {
+    padding: var(--arduino-space-xl) 0 var(--arduino-space-md);
+    font-weight: var(--arduino-font-weight-semibold);
+    background-color: transparent;
+    font-size: var(--theia-ui-font-size2);
+    color: var(--theia-editorWidget-foreground);
+    min-height: 0;
+    letter-spacing: -0.01em;
+}
+
+/* ── Dialog Controls ── */
+.p-Widget.dialogOverlay .dialogBlock .dialogControl {
+    padding: 0 0 var(--arduino-space-xl);
+    min-height: 0;
+}
+
+/* ── Dialog Content ── */
+.p-Widget.dialogOverlay .dialogBlock .dialogContent {
+    padding: 0;
+    overflow: auto;
+}
+
+.p-Widget.dialogOverlay .dialogBlock .dialogContent > input {
+    margin-bottom: var(--arduino-space-lg);
+}
+
+.p-Widget.dialogOverlay .dialogBlock .dialogContent > div {
+    padding: 0 0 var(--arduino-space-md);
+}
+
+/* ── Dialog Sections ── */
+.p-Widget.dialogOverlay .dialogBlock .dialogContent .dialogSection {
+    margin-top: var(--arduino-space-lg);
+}
+.p-Widget.dialogOverlay .dialogBlock .dialogContent .dialogSection:first-child {
+    margin-top: 0;
+}
+
+/* ── Dialog Rows ── */
+.p-Widget.dialogOverlay .dialogBlock .dialogContent .dialogSection .dialogRow {
+    margin-top: var(--arduino-space-md);
+    display: flex;
+    align-items: center;
+}
+
+/* ── Spinner ── */
+.p-Widget.dialogOverlay .dialogControl .spinner,
+.p-Widget.dialogOverlay
+    .dialogBlock
+    .dialogContent
+    .dialogSection
+    .dialogRow
+    .spinner {
+    background: var(--theia-icon-loading) center center no-repeat;
+    animation: theia-spin 1.25s linear infinite;
+    width: 28px;
+    height: 28px;
+}
+
+.p-Widget.dialogOverlay
+    .dialogBlock
+    .dialogContent
+    .dialogSection
+    .dialogRow:first-child {
+    margin-top: 0px;
+    height: 32px;
+}
+
+/* ── Utility ── */
+.fl1 {
+    flex: 1;
+}
+
+.status-icon {
+    margin-right: var(--arduino-space-sm);
+    font-size: 16px;
+}
+
+.fa.disabled {
+    opacity: 0.35;
+}
+
+@media only screen and (max-height: 560px) {
+    .p-Widget.dialogOverlay .dialogBlock {
+        max-height: 400px;
+    }
+}
+
+.p-Widget.dialogOverlay .error.progress {
+    color: var(--theia-button-background);
+    align-self: center;
+}

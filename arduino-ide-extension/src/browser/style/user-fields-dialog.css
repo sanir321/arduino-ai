@@ -1,0 +1,39 @@
+.user-fields-container {
+    max-height: 332px;
+    overflow: auto;
+    padding: var(--arduino-space-xxs);
+}
+
+.user-fields-list {
+    margin: var(--arduino-space-lg) 0;
+}
+
+.user-fields-dialog-content {
+    width: 408px;
+    max-height: 491px;
+}
+
+.user-fields-dialog-content .field-label {
+    color: var(--theia-editorWidget-foreground);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: var(--arduino-font-weight-normal);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    text-align: left;
+}
+
+.user-fields-dialog-content .theia-input {
+    flex-grow: 1;
+    border-radius: var(--arduino-radius-md);
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast);
+}
+
+.user-fields-dialog-content .theia-input:focus {
+    border-color: var(--theia-focusBorder);
+    box-shadow: 0 0 0 2px rgba(12, 161, 166, 0.12);
+}
+
+.user-fields-dialog-content .button-container {
+    justify-content: flex-end;
+}

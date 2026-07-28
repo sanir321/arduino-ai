@@ -1,0 +1,82 @@
+{
+  "private": true,
+  "name": "electron-app",
+  "version": "2.3.11",
+  "license": "AGPL-3.0-or-later",
+  "main": "./src-gen/backend/electron-main.js",
+  "dependencies": {
+    "@theia/core": "1.57.0",
+    "@theia/debug": "1.57.0",
+    "@theia/editor": "1.57.0",
+    "@theia/electron": "1.57.0",
+    "@theia/filesystem": "1.57.0",
+    "@theia/keymaps": "1.57.0",
+    "@theia/messages": "1.57.0",
+    "@theia/monaco": "1.57.0",
+    "@theia/navigator": "1.57.0",
+    "@theia/plugin-ext": "1.57.0",
+    "@theia/plugin-ext-vscode": "1.57.0",
+    "@theia/preferences": "1.57.0",
+    "@theia/terminal": "1.57.0",
+    "@theia/workspace": "1.57.0",
+    "arduino-ide-extension": "2.3.11"
+  },
+  "devDependencies": {
+    "@theia/cli": "1.57.0",
+    "electron": "30.1.2"
+  },
+  "scripts": {
+    "prepare": "theia download:plugins",
+    "prebuild": "rimraf lib",
+    "build": "theia build",
+    "prebuild:dev": "yarn prebuild",
+    "build:dev": "theia build --config webpack.dev.js --mode development",
+    "start": "theia start --plugins=local-dir:../plugins",
+    "watch": "theia build --config webpack.dev.js --mode development --watch",
+    "rebuild": "theia rebuild:browser --cacheRoot .. && theia rebuild:electron --cacheRoot .."
+  },
+  "theia": {
+    "target": "electron",
+    "frontend": {
+      "config": {
+        "applicationName": "Arduino IDE",
+        "defaultTheme": {
+          "light": "arduino-theme",
+          "dark": "arduino-theme-dark"
+        },
+        "defaultIconTheme": "none",
+        "validatePreferencesSchema": false,
+        "electron": {
+          "showWindowEarly": true,
+          "uriScheme": "arduino-ide"
+        },
+        "reloadOnReconnect": true,
+        "preferences": {
+          "window.title": "${rootName}${activeEditorShort}${appName}",
+          "files.autoSave": "afterDelay",
+          "editor.minimap.enabled": false,
+          "editor.tabSize": 2,
+          "editor.scrollBeyondLastLine": false,
+          "editor.quickSuggestions": {
+            "other": false,
+            "comments": false,
+            "strings": false
+          },
+          "editor.maxTokenizationLineLength": 500,
+          "editor.bracketPairColorization.enabled": false,
+          "breadcrumbs.enabled": false,
+          "workbench.tree.renderIndentGuides": "none",
+          "explorer.compactFolders": false
+        }
+      }
+    },
+    "backend": {
+      "config": {
+        "configDirName": ".arduinoIDE",
+        "singleInstance": true
+      }
+    }
+  },
+  "author": "Arduino SA",
+  "description": "Arduino IDE"
+}

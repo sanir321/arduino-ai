@@ -1,0 +1,66 @@
+/* ── Custom Select Dropdown ── */
+.arduino-select__control {
+    border: var(--theia-sideBar-background) var(--theia-border-width) solid !important;
+    background: var(--theia-sideBar-background) !important;
+    border-radius: var(--arduino-radius-md) !important;
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast) !important;
+}
+
+.arduino-select__control:hover {
+    border: var(--theia-focusBorder) var(--theia-border-width) solid !important;
+}
+
+.arduino-select__control--is-focused {
+    box-shadow: 0 0 0 2px rgba(12, 161, 166, 0.15) !important;
+    border-color: var(--theia-focusBorder) !important;
+}
+
+.arduino-select__option--is-selected {
+    background-color: var(--theia-list-activeSelectionBackground) !important;
+    color: var(--theia-list-activeSelectionForeground) !important;
+    border-color: var(--theia-focusBorder) !important;
+    border-radius: var(--arduino-radius-sm);
+}
+
+.arduino-select__option--is-focused {
+    background-color: var(--theia-list-hoverBackground) !important;
+    border-color: var(--theia-focusBorder) !important;
+}
+
+.arduino-select__option--is-focused.arduino-select__option--is-selected {
+    background-color: var(--theia-list-activeSelectionBackground) !important;
+    color: var(--theia-list-activeSelectionForeground) !important;
+    border-color: var(--theia-focusBorder) !important;
+}
+
+.arduino-select__menu {
+    background-color: var(--theia-sideBar-background) !important;
+    border: var(--arduino-border-default) !important;
+    top: auto !important;
+    box-shadow: var(--arduino-shadow-lg) !important;
+    border-radius: var(--arduino-radius-md) !important;
+    overflow: hidden;
+}
+
+.arduino-select__control.arduino-select__control--menu-is-open {
+    border: 1px solid !important;
+    border-color: var(--theia-focusBorder) !important;
+    border-bottom-color: var(--theia-sideBar-background) !important;
+    border-radius: var(--arduino-radius-md) var(--arduino-radius-md) 0 0 !important;
+    box-shadow: 0 0 0 2px rgba(12, 161, 166, 0.15) !important;
+}
+
+.arduino-select__value-container .arduino-select__single-value {
+    color: var(--theia-descriptionForeground) !important;
+}
+
+.arduino-select__menu-list {
+    padding-top: var(--arduino-space-xxs) !important;
+    padding-bottom: var(--arduino-space-xxs) !important;
+}
+
+.arduino-select__option {
+    border-radius: var(--arduino-radius-sm);
+    margin: 0 var(--arduino-space-xxs);
+    transition: background var(--arduino-transition-fast);
+}
