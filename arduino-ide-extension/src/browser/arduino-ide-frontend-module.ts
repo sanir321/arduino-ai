@@ -255,9 +255,11 @@ import {
 } from './dialogs/user-fields/user-fields-dialog';
 // AI Agent
 import { KiloLanguageModelProvider } from './ai/kilo-language-model-provider';
-import { ArduinoChatAgent } from './ai/arduino-chat-agent';
+import { ArduinoChatAgent, ArduinoAgentId } from './ai/arduino-chat-agent';
+import { ArduinoChatViewWidget } from './ai/arduino-chat-view-widget';
+import { ChatViewWidget } from '@theia/ai-chat-ui/lib/browser/chat-view-widget';
 import { Agent } from '@theia/ai-core/lib/common';
-import { ChatAgent } from '@theia/ai-chat/lib/common';
+import { ChatAgent, DefaultChatAgentId } from '@theia/ai-chat/lib/common';
 import { ToolProvider } from '@theia/ai-core/lib/common';
 import {
   BoardListToolProvider,
@@ -1096,9 +1098,12 @@ export default new ContainerModule((bind, unbind, isBound, rebind) => {
   bind(KiloLanguageModelProvider).toSelf().inSingletonScope();
   bind(FrontendApplicationContribution).toService(KiloLanguageModelProvider);
 
+  rebind(ChatViewWidget).to(ArduinoChatViewWidget).inSingletonScope();
+
   bind(ArduinoChatAgent).toSelf().inSingletonScope();
   bind(Agent).toService(ArduinoChatAgent);
   bind(ChatAgent).toService(ArduinoChatAgent);
+  rebind(DefaultChatAgentId).toConstantValue({ id: ArduinoAgentId });
 
   bind(BoardListToolProvider).toSelf().inSingletonScope();
   bind(ToolProvider).toService(BoardListToolProvider);

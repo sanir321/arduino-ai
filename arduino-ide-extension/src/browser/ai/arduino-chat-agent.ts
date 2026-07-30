@@ -4,64 +4,63 @@ import {
   ChatAgentLocation,
   SystemMessageDescription,
 } from '@theia/ai-chat/lib/common/chat-agents';
-import {
-  ToolRequest,
-  ToolInvocationRegistry,
-} from '@theia/ai-core/lib/common';
+import { BoardsService, emptyBoardsConfig } from '../../common/protocol/boards-service';
+import { BoardsServiceProvider } from '../boards/boards-service-provider';
+import { SketchesService } from '../../common/protocol/sketches-service';
+import { EditorManager } from '../theia/editor/editor-manager';
+import { ToolInvocationRegistry, ToolRequest } from '@theia/ai-core/lib/common';
 
 export const ArduinoAgentId = 'arduino-assistant';
 
-const ARDUINO_SYSTEM_PROMPT = `You are an expert Arduino assistant embedded in the Arduino IDE. You help users with:
-- Writing, modifying, and debugging Arduino sketches (C++ code for microcontrollers)
-- Selecting the right board and port
-- Installing and managing Arduino libraries (search, install, uninstall)
-- Managing board platforms (install ESP32, RP2040, STM32, etc.)
-- Compiling and uploading sketches
-- Reading serial monitor output and sending serial commands
-- Exploring project files and editing code directly
-- Understanding error messages and fixing code issues
-- Best practices for embedded development (memory management, power efficiency, etc.)
-
-You have access to tools that control the IDE. Use them proactively when the user asks you to perform actions.
-
-Available tools:
-- list_boards: Show all available boards and detected USB devices
-- select_board: Select a board and port for the current sketch
-- search_library: Search the Arduino library index
-- install_library: Install a library by name
-- uninstall_library: Remove an installed library
-- install_board_platform: Install new board platforms (ESP32, etc.)
-- create_sketch: Create a new Arduino sketch
-- read_sketch: Read the current open file content
-- compile_sketch: Compile/verify the sketch
-- upload_sketch: Upload the sketch to a board
-- serial_monitor: Read serial output or send commands to a connected board
-- explore_files: Browse workspace files and directories
-- edit_code: Edit code in the currently open file (append, replace, replace_all)
-
-When writing code:
-- Always include necessary #include statements
-- Use proper Arduino API conventions (setup(), loop(), pinMode(), digitalWrite(), etc.)
-- Comment complex sections
-- Consider the target board's limitations (memory, pins, clock speed)
-
-When the user asks to compile or upload, use the appropriate tools. Always confirm the board and port selection before uploading.`;
-
-const ARDUINO_TOOLS: string[] = [
+const TOOL_IDS = [
   'arduino-board-list',
   'arduino-board-select',
   'arduino-lib-search',
   'arduino-lib-install',
   'arduino-lib-uninstall',
-  'arduino-board-install',
   'arduino-sketch-create',
   'arduino-sketch-read',
   'arduino-compile',
   'arduino-upload',
   'arduino-serial-monitor',
+  'arduino-board-install',
   'arduino-file-explorer',
   'arduino-code-edit',
 ];
+
+const ARDUINO_SYSTEM_PROMPT = `You are the Arduino Assistant — an expert AI embedded in the Arduino IDE. You help users write, compile, debug, and upload Arduino sketches. You have direct access to IDE tools and should use them proactively whenever a task can be completed faster with a tool.
+
+## Core capabilities
+- **Boards**: list connected boards, select active board, install board platforms
+- **Libraries**: search, install, uninstall libraries from the Library Manager
+- **Sketches**: create, read, edit .ino files in the workspace
+- **Build**: compile sketches and upload them to the selected board
+- **Debug**: check serial monitor, browse files in the project
+- **Code**: edit existing sketch files with precise changes
+
+## Tool usage rules
+- Use tools automatically when the user asks for an action you can perform.
+- After executing a tool, summarize the result and offer next steps.
+- If the user's request is ambiguous, pick the most likely tool and confirm.
+- Available tools:
+\${TOOL_DESCRIPTIONS}
+
+## Code writing guidelines
+- Include all necessary #include statements.
+- Follow Arduino API conventions: setup(), loop(), pinMode(), digitalWrite(), analogRead().
+- Be mindful of the target board's constraints (flash, RAM, clock speed, pinout).
+- Use proper formatting and add comments for non-obvious logic.
+- When editing existing code, preserve the user's style and structure.
+
+## Response style
+- Be concise but thorough — explain what you did and why.
+- When showing code, format it properly with \`\`\`cpp blocks.
+- If something goes wrong (compile error, tool failure), explain the error and suggest a fix.
+- Offer follow-up actions: "Would you like me to upload this to your board?"
+
+Below is the current IDE state. Use it to tailor your responses.`;
+
+const ARDUINO_TOOLS: string[] = TOOL_IDS;
 
 @injectable()
 export class ArduinoChatAgent extends AbstractStreamParsingChatAgent {
@@ -75,8 +74,14 @@ export class ArduinoChatAgent extends AbstractStreamParsingChatAgent {
   override readonly iconClass = 'codicon codicon-tools';
   override readonly tags = ['Chat', 'Arduino', 'Embedded', 'IoT'];
 
-  @inject(ToolInvocationRegistry)
-  protected readonly toolInvocationRegistry: ToolInvocationRegistry;
+  @inject(BoardsService)
+  protected readonly boardsService: BoardsService;
+  @inject(BoardsServiceProvider)
+  protected readonly boardsServiceProvider: BoardsServiceProvider;
+  @inject(SketchesService)
+  protected readonly sketchesService: SketchesService;
+  @inject(EditorManager)
+  protected readonly editorManager: EditorManager;
 
   constructor() {
     super(
@@ -86,23 +91,89 @@ export class ArduinoChatAgent extends AbstractStreamParsingChatAgent {
     );
   }
 
+  private async getCurrentState(): Promise<string> {
+    const parts: string[] = [];
+    const config = this.boardsServiceProvider.boardsConfig || emptyBoardsConfig;
+    if (config.selectedBoard?.fqbn) {
+      parts.push(`Selected board: ${config.selectedBoard.name} (FQBN: ${config.selectedBoard.fqbn})`);
+    } else {
+      parts.push('Selected board: none');
+    }
+    if (config.selectedPort?.address) {
+      parts.push(`Selected port: ${config.selectedPort.address} (${config.selectedPort.protocol || 'serial'})`);
+    } else {
+      parts.push('Selected port: none');
+    }
+    try {
+      const detectedPorts = await this.boardsService.getDetectedPorts();
+      const entries = Object.entries(detectedPorts);
+      if (entries.length > 0) {
+        parts.push('Detected devices:');
+        for (const [, detected] of entries) {
+          const boardNames = detected.boards?.map(b => b.name).join(', ') || 'unknown';
+          parts.push(`  - Port ${detected.port}: ${boardNames}`);
+        }
+      } else {
+        parts.push('Detected devices: none');
+      }
+    } catch {
+      parts.push('Detected devices: (unavailable)');
+    }
+    const editorWidget = this.editorManager.currentEditor;
+    if (editorWidget) {
+      const uri = editorWidget.getResourceUri();
+      if (uri) {
+        try {
+          const sketch = await this.sketchesService.maybeLoadSketch(uri.toString());
+          if (sketch) {
+            parts.push(`Current sketch: ${sketch.name} (${uri.path.toString()})`);
+          } else {
+            parts.push(`Current file: ${uri.path.toString()}`);
+          }
+        } catch {
+          parts.push(`Current file: ${uri.path.toString()}`);
+        }
+      }
+    }
+    try {
+      const installedBoards = await this.boardsService.getInstalledBoards();
+      if (installedBoards.length > 0) {
+        const unique = [...new Set(installedBoards.map(b => b.name))];
+        parts.push(`Available boards (${unique.length}): ${unique.join(', ')}`);
+      }
+    } catch {
+      // skip
+    }
+    try {
+      const platforms = await this.boardsService.getInstalledPlatforms();
+      if (platforms.length > 0) {
+        parts.push(`Installed platforms: ${platforms.map(p => `${p.name || p.id} v${p.installedVersion || '?'}`).join(', ')}`);
+      }
+    } catch {
+      // skip
+    }
+    return parts.length > 0 ? `\n\nCurrent IDE State:\n${parts.join('\n')}` : '';
+  }
+
+  @inject(ToolInvocationRegistry)
+  protected readonly toolRegistry: ToolInvocationRegistry;
+
   protected override async getSystemMessageDescription(): Promise<SystemMessageDescription | undefined> {
+    const state = await this.getCurrentState();
     const functionDescriptions = new Map<string, ToolRequest>();
-    for (const toolId of this.functions) {
-      const tool = this.toolInvocationRegistry.getFunction(toolId);
+    for (const toolId of TOOL_IDS) {
+      const tool = this.toolRegistry.getFunction(toolId);
       if (tool) {
         functionDescriptions.set(toolId, tool);
       }
     }
+    const toolDescriptions = Array.from(functionDescriptions.values())
+      .map(t => `- **${t.id}**: ${t.description} — parameters: \`${JSON.stringify(t.parameters || {})}\``)
+      .join('\n');
+    const prompt = ARDUINO_SYSTEM_PROMPT.replace('${TOOL_DESCRIPTIONS}', toolDescriptions);
     return {
-      text: ARDUINO_SYSTEM_PROMPT,
+      text: prompt + state,
       functionDescriptions,
     };
-  }
-
-  protected override getTools(request: import('@theia/ai-chat/lib/common/chat-model').ChatRequestModel): ToolRequest[] | undefined {
-    return this.functions
-      .map((id) => this.toolInvocationRegistry.getFunction(id))
-      .filter((t): t is ToolRequest => t !== undefined);
   }
 }
