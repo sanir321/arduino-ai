@@ -99,14 +99,27 @@ yarn test:slow
 ### Bundle for Distribution
 
 ```bash
-# Rebuild native deps for Electron
-yarn --cwd electron-app rebuild
+# 1. Rebuild native deps for Electron
+cd electron-app && yarn rebuild && cd ..
 
-# Bundle with webpack
-yarn --cwd electron-app build
+# 2. Compile the extension and build the Electron app
+yarn build:dev
 
-# Package the application
-yarn --cwd electron-app package
+# 3. Package into installer
+# Linux: AppImage + .deb
+yarn --cwd electron-app dist:linux
+
+# Windows: NSIS installer
+yarn --cwd electron-app dist:win
+
+# macOS: DMG
+yarn --cwd electron-app dist:mac
+
+# Output: electron-app/dist/
+#   - Arduino AI IDE-2.3.11-x86_64.AppImage
+#   - arduino-ai-ide-2.3.11-amd64.deb
+#   - Arduino AI IDE-2.3.11.dmg
+#   - Arduino AI IDE Setup 2.3.11.exe
 ```
 
 ## Keybindings
