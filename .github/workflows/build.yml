@@ -451,7 +451,7 @@ jobs:
           pattern: ${{ env.STAGED_CHANNEL_FILE_ARTIFACT_PREFIX }}*
 
       - name: Remove no longer needed artifacts
-        uses: geekyeggo/delete-artifact@v5
+        uses: geekyeggo/delete-artifact@v6
         with:
           name: ${{ env.STAGED_CHANNEL_FILE_ARTIFACT_PREFIX }}*
 
@@ -689,6 +689,6 @@ jobs:
 
     steps:
       - name: Remove unneeded job transfer artifacts
-        uses: geekyeggo/delete-artifact@v5
+        uses: geekyeggo/delete-artifact@v6
         with:
           name: ${{ env.JOB_TRANSFER_ARTIFACT_PREFIX }}*
