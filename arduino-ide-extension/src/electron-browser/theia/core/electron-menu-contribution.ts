@@ -48,6 +48,7 @@ export class ElectronMenuContribution extends TheiaElectronMenuContribution {
     registry.unregisterKeybinding(ElectronCommands.CLOSE_WINDOW.id);
     registry.unregisterKeybinding(ElectronCommands.ZOOM_IN.id);
     registry.unregisterKeybinding(ElectronCommands.ZOOM_OUT.id);
+    registry.unregisterKeybinding(ElectronCommands.TOGGLE_DEVELOPER_TOOLS.id);
   }
 
   protected override setMenu(

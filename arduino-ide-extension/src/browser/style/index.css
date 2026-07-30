@@ -63,6 +63,17 @@
     /* Borders — subtle separators */
     --arduino-border-subtle: 1px solid rgba(128, 128, 128, 0.1);
     --arduino-border-default: 1px solid rgba(128, 128, 128, 0.15);
+
+    /* Hover overlay system — single source of truth */
+    --arduino-hover-overlay: rgba(128, 128, 128, 0.06);
+    --arduino-hover-overlay-strong: rgba(128, 128, 128, 0.08);
+    --arduino-hover-overlay-active: rgba(128, 128, 128, 0.12);
+    --arduino-accent-overlay: rgba(12, 161, 166, 0.12);
+    --arduino-accent-overlay-strong: rgba(12, 161, 166, 0.15);
+    --arduino-accent-overlay-glow: 0 0 0 2px rgba(12, 161, 166, 0.15);
+    --arduino-accent: #008184;
+
+    color-scheme: light;
 }
 
 body.theia-dark {
@@ -74,6 +85,16 @@ body.theia-dark {
 
     --arduino-border-subtle: 1px solid rgba(255, 255, 255, 0.06);
     --arduino-border-default: 1px solid rgba(255, 255, 255, 0.1);
+
+    --arduino-hover-overlay: rgba(255, 255, 255, 0.04);
+    --arduino-hover-overlay-strong: rgba(255, 255, 255, 0.06);
+    --arduino-hover-overlay-active: rgba(255, 255, 255, 0.10);
+    --arduino-accent-overlay: rgba(12, 161, 166, 0.18);
+    --arduino-accent-overlay-strong: rgba(12, 161, 166, 0.25);
+    --arduino-accent-overlay-glow: 0 0 0 2px rgba(12, 161, 166, 0.25);
+    --arduino-accent: #0ca1a6;
+
+    color-scheme: dark;
 }
 
 /* ── Revive --theia-icon-loading (removed from Theia but IDE2 still uses it) ── */
@@ -275,12 +296,10 @@ body.theia-dark ::-webkit-scrollbar-thumb:hover {
 /* Tab bar modernization */
 .p-TabBar .p-TabBar-tab {
     transition: background var(--arduino-transition-fast), color var(--arduino-transition-fast);
+    border-top: 1px solid transparent;
 }
 .p-TabBar .p-TabBar-tab:hover {
-    background: rgba(128, 128, 128, 0.06);
-}
-body.theia-dark .p-TabBar .p-TabBar-tab:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--arduino-hover-overlay);
 }
 
 /* Tab bar tab close icon */
@@ -309,24 +328,42 @@ body.theia-dark .p-TabBar .p-TabBar-tab:hover {
     border-radius: var(--arduino-radius-md);
     border: var(--arduino-border-subtle);
     overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.97);
+}
+body.theia-dark .p-Menu {
+    background: rgba(30, 39, 42, 0.97);
 }
 .p-Menu .p-Menu-item {
     padding: 6px 24px 6px 12px;
     transition: background var(--arduino-transition-fast);
 }
 .p-Menu .p-Menu-item:hover {
-    background: rgba(128, 128, 128, 0.08);
-}
-body.theia-dark .p-Menu .p-Menu-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--arduino-hover-overlay-strong);
 }
 
 /* Selection highlight */
 ::selection {
-    background: rgba(12, 161, 166, 0.3);
+    background: var(--theia-button-background);
+    color: var(--theia-button-foreground);
 }
 body.theia-dark ::selection {
-    background: rgba(12, 161, 166, 0.4);
+    background: var(--theia-button-background);
+}
+
+/* Tooltip modernization */
+.p-Tooltip {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: var(--arduino-radius-sm);
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* Progress bar gradient */
+.theia-progress-bar {
+    background: linear-gradient(90deg, var(--theia-button-background) 0%, var(--theia-arduino-branding-secondary) 100%);
 }
 
 /* Notification items */
@@ -353,10 +390,7 @@ body.theia-dark ::selection {
     transition: background var(--arduino-transition-fast);
 }
 .theia-ChatNode:hover {
-    background: rgba(128, 128, 128, 0.04);
-}
-body.theia-dark .theia-ChatNode:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--arduino-hover-overlay);
 }
 
 .theia-ChatNodeHeader {
@@ -382,7 +416,7 @@ body.theia-dark .theia-ChatNode:hover {
 }
 .theia-ChatInput-Editor:has(.monaco-editor.focused) {
     border-color: var(--theia-focusBorder) !important;
-    box-shadow: 0 0 0 3px rgba(12, 161, 166, 0.15);
+    box-shadow: var(--arduino-accent-overlay-glow);
 }
 
 /* Code blocks in chat */
@@ -395,12 +429,9 @@ body.theia-dark .theia-ChatNode:hover {
 .theia-toolCall {
     border-radius: var(--arduino-radius-md);
     padding: var(--arduino-space-sm) var(--arduino-space-md);
-    background: rgba(128, 128, 128, 0.04);
+    background: var(--arduino-hover-overlay);
     margin: var(--arduino-space-sm) 0 !important;
     border: var(--arduino-border-subtle);
-}
-body.theia-dark .theia-toolCall {
-    background: rgba(255, 255, 255, 0.03);
 }
 
 .theia-toolCall details pre {
@@ -479,7 +510,7 @@ select {
 input[type="text"]:focus,
 input[type="number"]:focus,
 textarea:focus {
-    box-shadow: 0 0 0 2px rgba(12, 161, 166, 0.15);
+    box-shadow: var(--arduino-accent-overlay-glow);
 }
 
 /* AI History cards */

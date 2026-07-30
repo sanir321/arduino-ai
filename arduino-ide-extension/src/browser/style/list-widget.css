@@ -15,7 +15,7 @@
 
 .arduino-list-widget .search-bar:focus {
     border-color: var(--theia-focusBorder);
-    box-shadow: 0 0 0 2px rgba(12, 161, 166, 0.12);
+    box-shadow: var(--arduino-accent-overlay-glow);
 }
 
 .arduino-list-widget .filter-bar {

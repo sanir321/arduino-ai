@@ -156,6 +156,9 @@
 #theia-top-panel .p-TabBar-toolbar.theia-arduino-toolbar.left {
     min-width: 398px;
     justify-content: flex-end;
+    border-right: var(--arduino-border-subtle);
+    padding-right: var(--arduino-space-sm);
+    margin-right: var(--arduino-space-sm);
 }
 
 .arduino-toolbar-tooltip {
@@ -234,13 +237,10 @@
     transition: background var(--arduino-transition-fast);
 }
 .p-MenuBar .p-MenuBar-item:hover {
-    background: rgba(128, 128, 128, 0.08);
-}
-body.theia-dark .p-MenuBar .p-MenuBar-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--arduino-hover-overlay-strong);
 }
 .p-MenuBar .p-MenuBar-item.p-mod-active {
-    background: rgba(128, 128, 128, 0.12);
+    background: var(--arduino-hover-overlay-active);
 }
 
 /* ── Splitter Handles ── */
