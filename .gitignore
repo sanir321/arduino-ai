@@ -36,3 +36,4 @@ electron_test_*
 full_launch_test*
 simulate_backend.*
 spawn_test.*
+arduino-ide-extension/build/
