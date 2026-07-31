@@ -1,0 +1,793 @@
+@import "./list-widget.css";
+@import "./boards-config-dialog.css";
+@import "./main.css";
+@import "./dialogs.css";
+@import "./monitor.css";
+@import "./arduino-select.css";
+@import "./status-bar.css";
+@import "./terminal.css";
+@import "./editor.css";
+@import "./settings-dialog.css";
+@import "./firmware-uploader-dialog.css";
+@import "./ide-updater-dialog.css";
+@import "./certificate-uploader-dialog.css";
+@import "./user-fields-dialog.css";
+@import "./debug.css";
+@import "./sketchbook.css";
+@import "./cloud-sketchbook.css";
+@import "./fonts.css";
+@import "./custom-codicon.css";
+@import "./progress-bar.css";
+@import "./settings-step-input.css";
+
+:root {
+    /* ── Design Tokens ── */
+    --arduino-button-height: 32px;
+
+    /* Spacing scale (4px base) */
+    --arduino-space-xxs: 2px;
+    --arduino-space-xs: 4px;
+    --arduino-space-sm: 8px;
+    --arduino-space-md: 12px;
+    --arduino-space-lg: 16px;
+    --arduino-space-xl: 20px;
+    --arduino-space-xxl: 24px;
+
+    /* Border radius — modern, slightly rounded */
+    --arduino-radius-xs: 2px;
+    --arduino-radius-sm: 4px;
+    --arduino-radius-md: 6px;
+    --arduino-radius-lg: 8px;
+    --arduino-radius-xl: 12px;
+    --arduino-radius-2xl: 16px;
+    --arduino-radius-pill: 9999px;
+
+    /* Shadows — subtle, layered for depth */
+    --arduino-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --arduino-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --arduino-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --arduino-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --arduino-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+
+    /* Transitions */
+    --arduino-transition-fast: 80ms ease-out;
+    --arduino-transition-normal: 150ms ease-out;
+    --arduino-transition-slow: 250ms ease-out;
+
+    /* Typography */
+    --arduino-font-weight-normal: 400;
+    --arduino-font-weight-medium: 500;
+    --arduino-font-weight-semibold: 600;
+    --arduino-font-weight-bold: 700;
+
+    /* Borders — subtle separators */
+    --arduino-border-subtle: 1px solid rgba(128, 128, 128, 0.1);
+    --arduino-border-default: 1px solid rgba(128, 128, 128, 0.15);
+
+    /* Hover overlay system — single source of truth */
+    --arduino-hover-overlay: rgba(128, 128, 128, 0.06);
+    --arduino-hover-overlay-strong: rgba(128, 128, 128, 0.08);
+    --arduino-hover-overlay-active: rgba(128, 128, 128, 0.12);
+    --arduino-accent-overlay: rgba(12, 161, 166, 0.12);
+    --arduino-accent-overlay-strong: rgba(12, 161, 166, 0.15);
+    --arduino-accent-overlay-glow: 0 0 0 2px rgba(12, 161, 166, 0.15);
+    --arduino-accent: #008184;
+
+    color-scheme: light;
+}
+
+body.theia-dark {
+    --arduino-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.15);
+    --arduino-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.15);
+    --arduino-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
+    --arduino-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
+    --arduino-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+
+    --arduino-border-subtle: 1px solid rgba(255, 255, 255, 0.06);
+    --arduino-border-default: 1px solid rgba(255, 255, 255, 0.1);
+
+    --arduino-hover-overlay: rgba(255, 255, 255, 0.04);
+    --arduino-hover-overlay-strong: rgba(255, 255, 255, 0.06);
+    --arduino-hover-overlay-active: rgba(255, 255, 255, 0.10);
+    --arduino-accent-overlay: rgba(12, 161, 166, 0.18);
+    --arduino-accent-overlay-strong: rgba(12, 161, 166, 0.25);
+    --arduino-accent-overlay-glow: 0 0 0 2px rgba(12, 161, 166, 0.25);
+    --arduino-accent: #0ca1a6;
+
+    color-scheme: dark;
+}
+
+/* ── Revive --theia-icon-loading (removed from Theia but IDE2 still uses it) ── */
+body {
+    --theia-icon-loading: url(../icons/loading-light.svg);
+    --theia-icon-loading-warning: url(../icons/loading-dark.svg);
+}
+body.theia-dark {
+    --theia-icon-loading: url(../icons/loading-dark.svg);
+    --theia-icon-loading-warning: url(../icons/loading-light.svg);
+}
+
+/* ── Global Input States ── */
+.theia-input.warning:focus {
+    outline: 1.5px solid var(--theia-warningForeground);
+    outline-offset: -1px;
+    opacity: 1 !important;
+    color: var(--theia-warningForeground);
+    background-color: var(--theia-warningBackground);
+    border-radius: var(--arduino-radius-sm);
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast);
+}
+
+.theia-input.warning {
+    background-color: var(--theia-warningBackground);
+}
+
+.theia-input.warning::placeholder {
+    color: var(--theia-warningForeground);
+    background-color: var(--theia-warningBackground);
+}
+
+.theia-input.error:focus {
+    outline: 1.5px solid var(--theia-errorForeground);
+    outline-offset: -1px;
+    opacity: 1 !important;
+    color: var(--theia-errorForeground);
+    background-color: var(--theia-errorBackground);
+    border-radius: var(--arduino-radius-sm);
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast);
+}
+
+.theia-input.error {
+    background-color: var(--theia-errorBackground);
+}
+
+.theia-input.error::placeholder {
+    color: var(--theia-errorForeground);
+    background-color: var(--theia-errorBackground);
+}
+
+/* ── Dock Panel ── */
+.p-DockPanel-widget {
+    min-width: 220px;
+    min-height: 20px;
+    height: 220px;
+}
+
+/* ── Modern Button System ── */
+button.theia-button,
+.theia-button {
+    align-items: center;
+    display: inline-flex;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-style: normal;
+    font-weight: var(--arduino-font-weight-semibold);
+    font-size: 13px;
+    justify-content: center;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    outline: none;
+    padding: 0 var(--arduino-space-lg);
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    border-width: 1px;
+    border-radius: var(--arduino-radius-md);
+    text-transform: uppercase;
+    transition: all var(--arduino-transition-normal);
+    box-shadow: none;
+    white-space: nowrap;
+    user-select: none;
+}
+
+button.theia-button {
+    height: var(--arduino-button-height);
+    max-width: none;
+}
+
+button.theia-button:active,
+.theia-button:active {
+    transform: scale(0.98);
+}
+
+.theia-button:active,
+.theia-button:focus {
+    box-shadow: 0 0 0 2px var(--theia-focusBorder);
+}
+
+button.theia-button.secondary {
+    border: 1px solid var(--theia-secondaryButton-foreground);
+    background: transparent;
+}
+
+button.theia-button.secondary:hover {
+    background: var(--theia-secondaryButton-hoverBackground);
+}
+
+button.theia-button[disabled],
+.theia-button[disabled] {
+    opacity: 0.4;
+    color: var(--theia-button-foreground);
+    background-color: var(--theia-button-background);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+button.secondary[disabled],
+.theia-button.secondary[disabled] {
+    color: var(--theia-secondaryButton-foreground);
+    background-color: var(--theia-secondaryButton-background);
+}
+
+button.theia-button.message-box-dialog-button {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+/* ── Progress Bar ── */
+.theia-progress-bar-container {
+    width: 100%;
+    height: 3px;
+    border-radius: var(--arduino-radius-pill);
+    overflow: hidden;
+}
+
+.theia-progress-bar {
+    height: 3px;
+    width: 3%;
+    border-radius: var(--arduino-radius-pill);
+    animation: progress-animation 1.3s 0s infinite cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.theia-notification-item-progressbar {
+    height: 3px;
+    width: 66%;
+    border-radius: var(--arduino-radius-pill);
+}
+
+/* ── Utility Classes ── */
+.flex-line {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.fa-reload {
+    font-size: 14px;
+}
+
+.debug-toolbar .debug-action > div {
+    font-family: var(--theia-ui-font-family);
+    font-size: var(--theia-ui-font-size0);
+    display: flex;
+    align-items: center;
+    self-align: center;
+    justify-content: center;
+    min-height: inherit;
+}
+
+/* ── Theia Core Overrides: Global modernization ── */
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.25);
+    border-radius: var(--arduino-radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 128, 0.4);
+}
+body.theia-dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+}
+body.theia-dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Tab bar modernization */
+.p-TabBar .p-TabBar-tab {
+    transition: background var(--arduino-transition-fast), color var(--arduino-transition-fast);
+    border-top: 1px solid transparent;
+}
+.p-TabBar .p-TabBar-tab:hover {
+    background: var(--arduino-hover-overlay);
+}
+
+/* Tab bar tab close icon */
+.p-TabBar .p-TabBar-tabCloseIcon {
+    opacity: 0;
+    transition: opacity var(--arduino-transition-fast);
+}
+.p-TabBar .p-TabBar-tab:hover .p-TabBar-tabCloseIcon,
+.p-TabBar .p-TabBar-tab.p-mod-current .p-TabBar-tabCloseIcon {
+    opacity: 1;
+}
+
+/* Panel border modernization */
+.p-DockPanel-tabBar {
+    min-height: 35px;
+}
+
+/* Side panel headers */
+.theia-sidepanel-toolbar {
+    border-bottom: var(--arduino-border-subtle);
+}
+
+/* Menu modernization */
+.p-Menu {
+    box-shadow: var(--arduino-shadow-lg);
+    border-radius: var(--arduino-radius-md);
+    border: var(--arduino-border-subtle);
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.97);
+}
+body.theia-dark .p-Menu {
+    background: rgba(30, 39, 42, 0.97);
+}
+.p-Menu .p-Menu-item {
+    padding: 6px 24px 6px 12px;
+    transition: background var(--arduino-transition-fast);
+}
+.p-Menu .p-Menu-item:hover {
+    background: var(--arduino-hover-overlay-strong);
+}
+
+/* Selection highlight */
+::selection {
+    background: var(--theia-button-background);
+    color: var(--theia-button-foreground);
+}
+body.theia-dark ::selection {
+    background: var(--theia-button-background);
+}
+
+/* Tooltip modernization */
+.p-Tooltip {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: var(--arduino-radius-sm);
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* Progress bar gradient */
+.theia-progress-bar {
+    background: linear-gradient(90deg, var(--theia-button-background) 0%, var(--theia-arduino-branding-secondary) 100%);
+}
+
+/* Notification items */
+.theia-notification-item {
+    border-radius: var(--arduino-radius-md);
+    transition: background var(--arduino-transition-fast);
+}
+
+/* View container modernization */
+.theia-view-container > .theia-view-container-header {
+    border-bottom: var(--arduino-border-subtle);
+}
+
+/* AI Chat UI overrides — modern card-based messages */
+.chat-view-widget {
+    padding: var(--arduino-space-sm);
+}
+
+.theia-ChatNode {
+    border-radius: var(--arduino-radius-lg);
+    margin-bottom: var(--arduino-space-sm);
+    padding: var(--arduino-space-md) var(--arduino-space-lg) !important;
+    border-bottom: none !important;
+    transition: background var(--arduino-transition-fast);
+}
+.theia-ChatNode:hover {
+    background: var(--arduino-hover-overlay);
+}
+
+.theia-ChatNodeHeader {
+    margin-bottom: var(--arduino-space-xs);
+}
+
+.theia-AgentLabel {
+    font-weight: var(--arduino-font-weight-semibold) !important;
+    font-size: 13px !important;
+    letter-spacing: 0.01em;
+}
+
+.theia-ChatNodeToolbar .theia-ChatNodeToolbarAction {
+    border-radius: var(--arduino-radius-sm) !important;
+    transition: background var(--arduino-transition-fast);
+}
+
+/* Chat input modernization */
+.theia-ChatInput-Editor {
+    border-radius: var(--arduino-radius-lg) !important;
+    border: var(--arduino-border-default) !important;
+    transition: border-color var(--arduino-transition-normal), box-shadow var(--arduino-transition-normal) !important;
+}
+.theia-ChatInput-Editor:has(.monaco-editor.focused) {
+    border-color: var(--theia-focusBorder) !important;
+    box-shadow: var(--arduino-accent-overlay-glow);
+}
+
+/* Code blocks in chat */
+.theia-ChatNode .theia-CodeWrapper {
+    border-radius: var(--arduino-radius-md) !important;
+    border: var(--arduino-border-subtle) !important;
+}
+
+/* Tool call display modernization */
+.theia-toolCall {
+    border-radius: var(--arduino-radius-md);
+    padding: var(--arduino-space-sm) var(--arduino-space-md);
+    background: var(--arduino-hover-overlay);
+    margin: var(--arduino-space-sm) 0 !important;
+    border: var(--arduino-border-subtle);
+}
+
+.theia-toolCall details pre {
+    border-radius: var(--arduino-radius-sm) !important;
+    border: var(--arduino-border-subtle) !important;
+}
+
+/* Question part renderer */
+.theia-QuestionPartRenderer-root {
+    border-radius: var(--arduino-radius-lg) !important;
+    border: var(--arduino-border-default) !important;
+    background: rgba(128, 128, 128, 0.03);
+}
+
+/* Progress messages in chat */
+.theia-ResponseNode-ProgressMessage {
+    font-size: 12px;
+    letter-spacing: 0.01em;
+}
+
+/* Request node badges */
+.theia-RequestNode .theia-RequestNode-AgentLabel,
+.theia-RequestNode .theia-RequestNode-VariableLabel {
+    border-radius: var(--arduino-radius-sm) !important;
+    font-size: 11px;
+    font-weight: var(--arduino-font-weight-medium);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* Error display */
+.theia-ChatPart-Error {
+    border-radius: var(--arduino-radius-md);
+    padding: var(--arduino-space-md);
+    background: rgba(223, 115, 101, 0.08);
+    border: 1px solid rgba(223, 115, 101, 0.2);
+}
+
+/* Section headers in AI */
+.section-header {
+    font-weight: var(--arduino-font-weight-bold) !important;
+    font-size: 16px !important;
+    letter-spacing: -0.01em;
+}
+.section-title {
+    font-weight: var(--arduino-font-weight-semibold) !important;
+    font-size: 14px !important;
+}
+
+/* Code part renderer */
+.theia-CodePartRenderer-root {
+    border-radius: var(--arduino-radius-md) !important;
+    border: var(--arduino-border-default) !important;
+}
+.theia-CodePartRenderer-right .button {
+    border-radius: var(--arduino-radius-sm) !important;
+    transition: background var(--arduino-transition-fast);
+}
+
+/* Checkbox and radio modernization */
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--theia-button-background);
+}
+
+/* Input field modernization */
+.theia-input,
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    border-radius: var(--arduino-radius-md);
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast);
+}
+.theia-input:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    box-shadow: var(--arduino-accent-overlay-glow);
+}
+
+/* AI History cards */
+.theia-card {
+    border-radius: var(--arduino-radius-lg) !important;
+    border: var(--arduino-border-subtle) !important;
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast) !important;
+}
+.theia-card:hover {
+    border-color: rgba(128, 128, 128, 0.2);
+    box-shadow: var(--arduino-shadow-sm);
+}
+
+/* AI configuration */
+.ai-configuration-widget,
+.theia-ai-settings-container {
+    padding: var(--arduino-space-lg);
+}
+
+.agent-tag {
+    border-radius: var(--arduino-radius-pill);
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: var(--arduino-font-weight-medium);
+    letter-spacing: 0.02em;
+}
+
+/* ── Arduino Chat Header Banner ───────────────────────────── */
+
+.arduino-chat-view-widget {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.arduino-chat-header {
+    padding: 12px 14px;
+    margin: 8px 10px 4px 10px;
+    background: var(--theia-sideBar-background, var(--theia-editor-background));
+    border: 1px solid var(--theia-panel-border, rgba(128, 128, 128, 0.2));
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+    z-index: 5;
+    animation: arduino-chat-fade-in 0.2s ease-out;
+}
+
+.arduino-chat-header.hidden {
+    display: none !important;
+}
+
+.arduino-chat-header-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.arduino-chat-header-icon {
+    font-size: 18px;
+    color: #008184;
+    background: rgba(0, 129, 132, 0.12);
+    padding: 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arduino-chat-header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.arduino-chat-badge {
+    background: #008184;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.arduino-chat-header-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--theia-foreground);
+}
+
+.arduino-chat-header-subtitle {
+    font-size: 11px;
+    color: var(--theia-descriptionForeground);
+    margin: 0;
+}
+
+.arduino-chat-header-examples {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.arduino-chat-example-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: var(--theia-button-secondaryBackground, rgba(128, 128, 128, 0.1));
+    color: var(--theia-button-secondaryForeground, var(--theia-foreground));
+    border: 1px solid var(--theia-panel-border, rgba(128, 128, 128, 0.2));
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.arduino-chat-example-pill:hover {
+    background: #008184;
+    color: #ffffff;
+    border-color: #008184;
+}
+
+/* ── Chat Input Text Overflow Fix ───────────────────────────── */
+
+.theia-ChatInput-Editor .monaco-editor .view-line {
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+
+.theia-ChatInput-Editor .monaco-editor .view-lines {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+}
+
+/* ── Modern Floating AI Chat Input Card ───────────────────── */
+
+.arduino-chat-view-widget {
+    min-width: 380px !important;
+    width: 100%;
+}
+
+.chat-input-widget {
+    position: sticky;
+    bottom: 0;
+    margin: 0 8px;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+    padding: 12px 14px calc(16px + env(safe-area-inset-bottom, 0px)) 14px;
+    background: rgba(13, 15, 18, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.theia-ChatInput {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.theia-ChatInput-Editor-Box {
+    background: #1A1D23;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 13px 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: relative;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.theia-ChatInput-Editor-Box:focus-within {
+    background: #1A1D23 !important;
+    border-color: #14B8A6 !important;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15) !important;
+}
+
+.theia-ChatInput-Editor {
+    flex: 1;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.theia-ChatInput-Editor-Placeholder {
+    color: #6B7280 !important;
+    font-size: 15px !important;
+    font-weight: 400;
+    opacity: 0.85;
+    user-select: none;
+    pointer-events: none;
+    line-height: 24px;
+    padding-top: 0;
+    letter-spacing: 0.01em;
+    transition: opacity 180ms ease, color 180ms ease;
+}
+
+.theia-ChatInputOptions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+/* Minimal Chat Bar: Hide any extra buttons/icons besides send & stop */
+.theia-ChatInputOptions > *:not(.codicon-send):not(.codicon-stop-circle):not([title*="Send"]):not([title*="Stop"]) {
+    display: none !important;
+}
+
+/* Minimal Arrow Icon Button (No background fill, colored icon only) */
+.theia-ChatInputOptions .codicon-send {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent !important;
+    color: #14B8A6 !important;
+    font-size: 16px !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    transition: transform 180ms ease, color 180ms ease, opacity 180ms ease;
+}
+
+.theia-ChatInputOptions .codicon-send:hover {
+    background: transparent !important;
+    color: #2DD4BF !important;
+    transform: scale(1.15);
+    box-shadow: none !important;
+}
+
+.theia-ChatInputOptions .codicon-send:active {
+    transform: scale(0.92);
+    opacity: 0.8;
+}
+
+.theia-ChatInputOptions .codicon-send[style*="opacity: 0.5"],
+.theia-ChatInputOptions .codicon-send[style*="cursor: default"] {
+    background: transparent !important;
+    color: #4B5563 !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    opacity: 0.4 !important;
+}
+
+.theia-ChatInputOptions .codicon-stop-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent !important;
+    color: #EF4444 !important;
+    font-size: 18px !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    transition: transform 180ms ease, color 180ms ease;
+}
+
+.theia-ChatInputOptions .codicon-stop-circle:hover {
+    color: #F87171 !important;
+    transform: scale(1.15);
+}

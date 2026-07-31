@@ -1,0 +1,88 @@
+.sketchbook-tab-icon {
+    -webkit-mask: url("./sketchbook.svg");
+    mask: url("./sketchbook.svg");
+}
+
+.p-TabBar-tabIcon.sketchbook-tree-icon {
+    background-color: var(--theia-foreground);
+    -webkit-mask: url(./sketchbook-tree-icon.svg);
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    width: 19px !important;
+    height: var(--theia-icon-size);
+    -webkit-mask-size: 100%;
+}
+
+.p-mod-current .sketchbook-tree-icon {
+    background-color: var(--theia-foreground);
+    -webkit-mask: url(./sketchbook-tree-icon-filled.svg);
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100%;
+}
+
+.sketchbook-trees-container {
+    height: 100%;
+}
+
+.sketchbook-trees-container .create-new {
+    min-height: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sketchbook-trees-container .create-new .theia-button {
+    margin-left: unset;
+    border-radius: var(--arduino-radius-md);
+    transition: background var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast);
+}
+
+.sketchbook-tree__opts {
+    background-color: var(--theia-foreground);
+    -webkit-mask: url(./sketchbook-opts-icon.svg);
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    width: var(--theia-icon-size);
+    height: var(--theia-icon-size);
+    transition: opacity var(--arduino-transition-fast);
+    border-radius: var(--arduino-radius-sm);
+}
+
+.sketchbook-tree__opts:hover {
+    opacity: 0.7;
+}
+
+.active-sketch {
+    font-weight: var(--arduino-font-weight-medium);
+    background-color: var(--theia-list-activeSelectionBackground) !important;
+    color: var(--theia-list-activeSelectionForeground) !important;
+    border-radius: var(--arduino-radius-md);
+}
+
+#arduino-sketchbook-tree-widget .theia-TreeNode {
+    line-height: 32px;
+    border-radius: var(--arduino-radius-md);
+    transition: background var(--arduino-transition-fast);
+    margin: 0 var(--arduino-space-xxs);
+}
+
+#arduino-sketchbook-tree-widget .theia-TreeNodeSegmentGrow {
+    flex: 1;
+}
+
+.theia-TreeNode .sketchbook-commands-icons {
+    display: none;
+}
+
+.theia-TreeNode:hover .sketchbook-commands-icons,
+.theia-TreeNode.theia-mod-selected .sketchbook-commands-icons {
+    display: block;
+}
+
+.theia-Tree:focus .theia-TreeNode.theia-mod-selected,
+.theia-Tree .ReactVirtualized__List:focus .theia-TreeNode.theia-mod-selected {
+    background: var(--theia-list-inactiveSelectionBackground);
+    color: var(--theia-list-inactiveSelectionForeground) !important;
+}

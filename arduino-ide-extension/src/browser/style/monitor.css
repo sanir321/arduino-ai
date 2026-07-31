@@ -1,0 +1,117 @@
+.monitor-tab-icon {
+    -webkit-mask: url("../icons/monitor-tab-icon.svg");
+    mask: url("../icons/monitor-tab-icon.svg");
+}
+
+.serial-monitor {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.serial-monitor-messages {
+    white-space: pre;
+    font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.serial-monitor-messages pre {
+    margin: 0;
+}
+
+/* ── Monitor Header ── */
+.serial-monitor .head {
+    display: flex;
+    padding: var(--arduino-space-xs) var(--arduino-space-sm);
+    height: 36px;
+    background-color: var(--theia-activityBar-background);
+    gap: var(--arduino-space-xs);
+    align-items: center;
+    border-bottom: var(--arduino-border-subtle);
+}
+
+.serial-monitor .head .send {
+    display: flex;
+    flex: 1;
+}
+
+.serial-monitor .head .send > label:before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    background: var(--theia-icon-loading-warning) center center no-repeat;
+    animation: theia-spin 1.25s linear infinite;
+    width: 28px;
+    height: 28px;
+}
+
+.serial-monitor .head .send > label {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-self: baseline;
+}
+
+.serial-monitor .head .send > input,
+.serial-monitor .head .send > label > input {
+    line-height: var(--theia-content-line-height);
+    height: 28px;
+    width: 100%;
+    border-radius: var(--arduino-radius-md);
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast);
+}
+
+.serial-monitor .head .send > label > input {
+    padding-left: 28px;
+    box-sizing: border-box;
+}
+
+.serial-monitor .head .send > input:focus,
+.serial-monitor .head .send > label > input:focus {
+    border-color: var(--theia-focusBorder);
+    box-shadow: 0 0 0 2px rgba(12, 161, 166, 0.15);
+}
+
+.serial-monitor .head .config {
+    display: flex;
+}
+
+.serial-monitor .head .config .select {
+    margin-left: var(--arduino-space-xs);
+}
+
+.serial-monitor .body {
+    overflow: auto;
+    flex: 1;
+    padding: var(--arduino-space-sm);
+}
+
+/* ── Monitor Toolbar ── */
+.p-TabBar-toolbar .item.arduino-monitor {
+    width: 28px;
+    height: 28px;
+    justify-content: center;
+    font-size: medium;
+    box-sizing: border-box;
+    border-radius: var(--arduino-radius-sm);
+    transition: background var(--arduino-transition-fast);
+}
+
+.p-TabBar-toolbar .item.arduino-monitor:hover {
+    background: var(--theia-sideBarSectionHeader-background);
+}
+
+.p-TabBar-toolbar .item.arduino-monitor.toggled {
+    background: var(--theia-sideBarSectionHeader-background);
+    filter: contrast(80%);
+}
+
+.p-TabBar-toolbar .item .clear-all {
+    background: var(--theia-icon-clear) no-repeat;
+    transition: opacity var(--arduino-transition-fast);
+}
+
+.p-TabBar-toolbar .item .clear-all:hover {
+    opacity: 0.7;
+}

@@ -1,0 +1,101 @@
+#certificate-uploader-dialog-container > .dialogBlock {
+    width: 600px;
+}
+
+.certificate-uploader-dialog .theia-select {
+    border: var(--arduino-border-subtle) !important;
+    border-radius: var(--arduino-radius-md);
+    transition: border-color var(--arduino-transition-fast);
+}
+
+.certificate-uploader-dialog .theia-select:hover {
+    border-color: var(--theia-focusBorder) !important;
+}
+
+.certificate-uploader-dialog .arduino-select__control {
+    height: 32px;
+    background: var(--theia-input-background) !important;
+    border-radius: var(--arduino-radius-md);
+}
+
+.certificate-uploader-dialog .dialogRow > button {
+    margin-right: var(--arduino-space-xs);
+}
+
+.certificate-uploader-dialog .certificate-list {
+    border: var(--arduino-border-default);
+    border-radius: var(--arduino-radius-md);
+    color: var(--theia-editor-foreground);
+    background-color: var(--theia-editor-background);
+    overflow: auto;
+    height: 120px;
+    flex: 1;
+}
+
+.certificate-uploader-dialog .certificate-list .certificate-row {
+    display: flex;
+    padding: var(--arduino-space-sm) var(--arduino-space-md);
+    border-radius: var(--arduino-radius-md);
+    transition: background var(--arduino-transition-fast);
+}
+
+.certificate-uploader-dialog .certificate-list .certificate-row:hover {
+    background-color: var(--theia-list-hoverBackground);
+}
+
+.certificate-uploader-dialog .upload-status {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.certificate-uploader-dialog .success {
+    display: flex;
+    align-items: center;
+    color: var(--theia-testing-foreground);
+}
+
+.certificate-uploader-dialog .warn {
+    color: var(--theia-errorForeground);
+}
+
+.certificate-uploader-dialog .status-icon {
+    margin-right: var(--arduino-space-md);
+}
+
+.certificate-uploader-dialog .add-cert-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.certificate-uploader-dialog .add-cert-btn .caret {
+    margin-left: var(--arduino-space-sm);
+}
+
+.certificate-add {
+    padding: var(--arduino-space-lg);
+    border-radius: var(--arduino-radius-md);
+    border: var(--arduino-border-default);
+    color: var(--theia-editorWidget-foreground);
+    background-color: var(--theia-editorWidget-background);
+    transition: border-color var(--arduino-transition-fast);
+}
+
+.certificate-add:hover {
+    border-color: var(--theia-focusBorder);
+}
+
+.certificate-add input {
+    margin-top: var(--arduino-space-md);
+    padding: 0 var(--arduino-space-md);
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: var(--arduino-radius-md);
+    transition: border-color var(--arduino-transition-fast), box-shadow var(--arduino-transition-fast);
+}
+
+.certificate-add input:focus {
+    border-color: var(--theia-focusBorder);
+    box-shadow: 0 0 0 2px rgba(12, 161, 166, 0.12);
+}

@@ -1,0 +1,27 @@
+#theia-statusBar {
+    border-top: 1px solid rgba(128, 128, 128, 0.08);
+    font-size: 12px;
+    height: 28px;
+}
+
+#theia-statusBar .area .element.arduino-selected-port {
+    margin-left: 0;
+}
+
+#theia-statusBar .area .element.arduino-selected-board > *:last-child {
+    margin-right: 0;
+}
+
+#theia-statusBar .area .element {
+    transition: background var(--arduino-transition-fast);
+    padding: 0 var(--arduino-space-sm);
+    border-radius: var(--arduino-radius-sm);
+    margin: 0 1px;
+}
+
+#theia-statusBar .area .element:hover {
+    background: rgba(128, 128, 128, 0.1);
+}
+body.theia-dark #theia-statusBar .area .element:hover {
+    background: rgba(255, 255, 255, 0.08);
+}

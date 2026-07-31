@@ -1,0 +1,110 @@
+#arduino-settings-dialog-container > .dialogBlock {
+    height: 531px;
+    max-width: 740px !important;
+    width: calc(100% - 104px);
+}
+
+#arduino-settings-dialog-container > .dialogBlock > .dialogContent {
+    justify-content: flex-start;
+    overflow: auto;
+}
+
+#arduino-settings-dialog-container > .dialogBlock > .dialogControl {
+    padding: var(--arduino-space-lg) 0 var(--arduino-space-xxl);
+}
+
+.arduino-settings-dialog .content {
+    padding: var(--arduino-space-sm);
+}
+
+.arduino-settings-dialog .flex-line {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    flex-wrap: wrap;
+}
+
+.arduino-settings-dialog .with-margin {
+    margin-left: var(--arduino-space-sm);
+}
+
+.arduino-settings-dialog .theia-select {
+    background: var(--theia-input-background) !important;
+    border-radius: var(--arduino-radius-md);
+    transition: border-color var(--arduino-transition-fast);
+}
+.arduino-settings-dialog .theia-select:hover {
+    border-color: var(--theia-focusBorder);
+}
+
+.arduino-settings-dialog .column > div {
+    height: 26px;
+    vertical-align: middle;
+}
+
+.arduino-settings-dialog .column-container {
+    display: flex;
+    gap: var(--arduino-space-xl);
+}
+
+.arduino-settings-dialog .stretch {
+    flex: 1;
+}
+
+.arduino-settings-dialog .flex-line .theia-button.shrink {
+    min-width: unset;
+}
+
+.arduino-settings-dialog .proxy-settings {
+    margin: var(--arduino-space-sm);
+}
+
+.arduino-settings-dialog input[type="radio"] {
+    margin: var(--arduino-space-xs) !important;
+}
+
+.arduino-settings-dialog .theia-input.small {
+    max-width: 50px;
+    width: 50px;
+}
+
+.additional-urls-dialog .link:hover {
+    color: var(--theia-textLink-activeForeground);
+}
+
+/* ── Settings Tabs ── */
+.arduino-settings-dialog .react-tabs__tab--selected {
+    background: var(--theia-editorWidget-background);
+    border-color: var(--theia-tab-activeBorder);
+    color: var(--theia-tab-activeForeground);
+    border-radius: var(--arduino-radius-md) var(--arduino-radius-md) 0 0;
+    font-weight: var(--arduino-font-weight-medium);
+    transition: background var(--arduino-transition-fast);
+}
+
+.arduino-settings-dialog .react-tabs__tab-list {
+    border-color: var(--theia-tab-activeBorder);
+}
+
+.arduino-settings-dialog .react-tabs__tab-panel {
+    padding-bottom: var(--arduino-space-sm);
+}
+
+.arduino-settings-dialog .react-tabs__tab-list {
+    display: flex;
+    justify-content: center;
+    gap: var(--arduino-space-xxs);
+}
+
+.additional-urls-dialog textarea {
+    resize: none;
+    white-space: nowrap;
+    border-radius: var(--arduino-radius-md);
+}
+
+.p-Widget.dialogOverlay .dialogContent.additional-urls-dialog {
+    display: flex;
+    overflow: hidden;
+    padding: 0 1px;
+    margin: 0 -1px;
+}
