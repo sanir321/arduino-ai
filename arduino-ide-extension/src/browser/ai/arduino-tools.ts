@@ -2,6 +2,8 @@ import { injectable, inject } from '@theia/core/shared/inversify';
 import { ToolProvider, ToolRequest } from '@theia/ai-core/lib/common';
 import {
   BoardsService,
+  BoardIdentifier,
+  PortIdentifier,
   emptyBoardsConfig,
 } from '../../common/protocol/boards-service';
 import { LibraryService, LibraryPackage } from '../../common/protocol/library-service';
@@ -92,14 +94,14 @@ export class BoardSelectToolProvider implements ToolProvider {
         const args = safeParseArgs(argString);
         const currentConfig =
           this.boardsServiceProvider.boardsConfig || emptyBoardsConfig;
-        const update: Record<string, unknown> = {};
         if (args.fqbn) {
-          update.selectedBoard = { fqbn: args.fqbn, name: args.fqbn.split(':').pop() || args.fqbn };
+          const board: BoardIdentifier = { fqbn: args.fqbn, name: args.fqbn.split(':').pop() || args.fqbn };
+          this.boardsServiceProvider.updateConfig(board);
         }
         if (args.port) {
-          update.selectedPort = { address: args.port, protocol: 'serial' };
+          const port: PortIdentifier = { address: args.port, protocol: 'serial' };
+          this.boardsServiceProvider.updateConfig(port);
         }
-        this.boardsServiceProvider.updateConfig(update as any);
         return `Board selected: ${args.fqbn || currentConfig.selectedBoard?.fqbn || 'none'}, Port: ${args.port || currentConfig.selectedPort?.address || 'none'}`;
       },
     };
@@ -240,8 +242,10 @@ export class SketchReadToolProvider implements ToolProvider {
         if (!editorWidget) {
           return 'No file is currently open.';
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return (editorWidget.editor.document as any).getText();
+        const doc = editorWidget.editor.document;
+        return 'getText' in doc && typeof (doc as { getText?: () => string }).getText === 'function'
+          ? (doc as { getText: () => string }).getText()
+          : doc.getLineContent(1);
       },
     };
   }
@@ -700,10 +704,9 @@ export class CodeEditToolProvider implements ToolProvider {
         }
 
         const editor = editorWidget.editor;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const monacoEditor = (editorWidget as any).editor;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const model = monacoEditor?.getModel?.() || (editor.document as any).textEditorModel;
+        const monacoEditor = editor as { getModel?: () => { getValue: () => string; setValue: (v: string) => void } | null };
+        const doc = editor.document as { textEditorModel?: { getValue: () => string; setValue: (v: string) => void } };
+        const model = (typeof monacoEditor.getModel === 'function' ? monacoEditor.getModel() : null) || doc.textEditorModel;
 
         if (!model) {
           return 'Could not access the editor model. Make sure a file is open.';

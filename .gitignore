@@ -37,3 +37,10 @@ full_launch_test*
 simulate_backend.*
 spawn_test.*
 arduino-ide-extension/build/
+
+# Local machine artifacts
+*.lnk
+*.tgz
+.agents/
+.antigravitycli/
+electron-app/*.tgz

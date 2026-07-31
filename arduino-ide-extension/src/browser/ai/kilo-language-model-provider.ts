@@ -14,11 +14,13 @@ const KILO_API_URL = 'https://api.kilo.ai/api/gateway';
 const KILO_MODEL = 'kilo-auto/free';
 const TIMEOUT_MS = 120_000;
 const MAX_TOOL_TURNS = 10;
+const DEBUG = typeof process !== 'undefined' && process.env?.KILO_DEBUG === 'true';
 
 function getApiKey(): string {
   if (typeof process !== 'undefined' && process.env?.KILO_API_KEY) {
     return process.env.KILO_API_KEY;
   }
+  console.warn('[Kilo] No KILO_API_KEY found in environment. Requests will be sent without authentication.');
   return '';
 }
 
@@ -176,7 +178,7 @@ export class KiloLanguageModel implements LanguageModel {
     const messages = toOpenAIMessages(request);
     const openAITools = request.tools?.length ? toOpenAITools(request.tools) : undefined;
 
-    console.log('[Kilo] Starting request with', messages.length, 'messages' + (openAITools ? `, ${openAITools.length} tools` : ''));
+    if (DEBUG) console.log('[Kilo] Starting request with', messages.length, 'messages' + (openAITools ? `, ${openAITools.length} tools` : ''));
 
     let turn = 0;
     let body: Record<string, unknown> = {
@@ -193,7 +195,7 @@ export class KiloLanguageModel implements LanguageModel {
       const result = await kiloRequest(body, cancellationToken);
 
       if (!result.tool_calls?.length) {
-        console.log('[Kilo] Text-only response after', turn, 'turn(s)');
+        if (DEBUG) console.log('[Kilo] Text-only response after', turn, 'turn(s)');
         const asyncIterable: AsyncIterable<LanguageModelStreamResponsePart> = {
           [Symbol.asyncIterator](): AsyncIterator<LanguageModelStreamResponsePart> {
             let yielded = false;
@@ -212,7 +214,7 @@ export class KiloLanguageModel implements LanguageModel {
         return { stream: asyncIterable };
       }
 
-      console.log('[Kilo] Tool call turn', turn, '- executing', result.tool_calls.length, 'tool(s)');
+      if (DEBUG) console.log('[Kilo] Tool call turn', turn, '- executing', result.tool_calls.length, 'tool(s)');
       const extraMessages: { role: string; content: string; tool_calls?: unknown[]; tool_call_id?: string }[] = [
         {
           role: 'assistant',
@@ -252,7 +254,7 @@ export class KiloLanguageModel implements LanguageModel {
       (body.messages as unknown[]).push(...extraMessages);
     }
 
-    console.log('[Kilo] Max turns reached, returning fallback');
+    if (DEBUG) console.log('[Kilo] Max turns reached, returning fallback');
     const fallbackIterable: AsyncIterable<LanguageModelStreamResponsePart> = {
       [Symbol.asyncIterator](): AsyncIterator<LanguageModelStreamResponsePart> {
         let yielded = false;
@@ -276,6 +278,6 @@ export class KiloLanguageModelProvider implements FrontendApplicationContributio
 
   onStart(): void {
     this.languageModelRegistry.addLanguageModels([new KiloLanguageModel()]);
-    console.log('[Kilo] Language model registered: ' + KILO_MODEL);
+    if (DEBUG) console.log('[Kilo] Language model registered: ' + KILO_MODEL);
   }
 }
