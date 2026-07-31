@@ -44,6 +44,7 @@
     "dist:mac": "electron-builder --mac"
   },
   "build": {
+    "npmRebuild": false,
     "appId": "cc.arduino.arduino-ai-ide",
     "productName": "Arduino AI IDE",
     "copyright": "Copyright © 2024 Arduino SA",
