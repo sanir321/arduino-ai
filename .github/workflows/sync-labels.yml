@@ -82,6 +82,9 @@ jobs:
   sync:
     needs: download
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
 
     steps:
       - name: Set environment variables

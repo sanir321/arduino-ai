@@ -131,7 +131,7 @@ export class KiloLanguageModel implements LanguageModel {
     console.log('[Kilo] Starting request with', messages.length, 'messages' + (openAITools ? `, ${openAITools.length} tools` : ''));
 
     let turn = 0;
-    let body: Record<string, unknown> = {
+    const body: Record<string, unknown> = {
       model: KILO_MODEL,
       messages,
       stream: false,
