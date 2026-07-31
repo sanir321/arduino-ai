@@ -19,8 +19,7 @@ jobs:
       - name: Install Node.js 18.17
         uses: actions/setup-node@v7
         with:
-          node-version: '18.17'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '20.19.4'
           cache: 'yarn'
 
       - name: Install Go
