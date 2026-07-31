@@ -8,15 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (userAgent.includes('win')) {
         if (spanText) spanText.textContent = 'Download for Windows';
-        heroBtn.href = 'https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-Setup-2.3.11.exe';
+        heroBtn.href = 'https://github.com/sanir321/arduino-ai/releases/latest';
     } else if (userAgent.includes('mac')) {
         if (spanText) spanText.textContent = 'Download for macOS';
-        heroBtn.href = 'https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-2.3.11.dmg';
+        heroBtn.href = 'https://github.com/sanir321/arduino-ai/releases/latest';
     } else if (userAgent.includes('linux')) {
         if (spanText) spanText.textContent = 'Download for Linux';
-        heroBtn.href = 'https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-2.3.11-x86_64.AppImage';
+        heroBtn.href = 'https://github.com/sanir321/arduino-ai/releases/latest';
     } else {
         if (spanText) spanText.textContent = 'Download Arduino AI IDE';
-        heroBtn.href = '#downloads';
+        heroBtn.href = 'https://github.com/sanir321/arduino-ai/releases/latest';
     }
 });
