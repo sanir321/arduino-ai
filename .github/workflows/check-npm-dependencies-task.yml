@@ -100,6 +100,10 @@ jobs:
         run: sudo apt update -y && sudo apt install -y libxkbfile-dev libsecret-1-dev
 
       - name: Update dependencies license metadata cache
+        env:
+          # Avoid failure of @vscode/ripgrep installation due to GitHub API rate limiting:
+          # https://github.com/microsoft/vscode-ripgrep#github-api-limit-note
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           go tool \
             github.com/go-task/task/v3/cmd/task \
@@ -170,6 +174,10 @@ jobs:
         run: sudo apt update -y && sudo apt install -y libxkbfile-dev libsecret-1-dev
 
       - name: Check for dependencies with unapproved licenses
+        env:
+          # Avoid failure of @vscode/ripgrep installation due to GitHub API rate limiting:
+          # https://github.com/microsoft/vscode-ripgrep#github-api-limit-note
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           go tool \
             github.com/go-task/task/v3/cmd/task \
