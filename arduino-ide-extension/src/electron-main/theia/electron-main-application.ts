@@ -556,6 +556,12 @@ export class ElectronMainApplication extends TheiaElectronMainApplication {
     if (this._firstWindowId === undefined) {
       this._firstWindowId = electronWindow.id;
     }
+    electronWindow.once('ready-to-show', () => {
+      electronWindow.show();
+      electronWindow.focus();
+    });
+    electronWindow.show();
+    electronWindow.focus();
     return electronWindow;
   }
 
