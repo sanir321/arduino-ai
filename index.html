@@ -3,286 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arduino AI IDE — The AI-Powered Next-Gen Microcontroller IDE</title>
-    <meta name="description" content="Download Arduino AI IDE (Custom Edition). The next-generation Arduino IDE with integrated Kilo AI assistant, natural language sketch generation, automatic board detection, and 1-click compile & upload.">
+    <title>Arduino AI IDE — Intelligence for Embedded Systems</title>
+    <meta name="description" content="The next-generation Arduino AI IDE. Ultra-minimal, conversational embedded intelligence powered by Kilo AI.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="glow-bg"></div>
-
-    <!-- Navigation Header -->
-    <header class="navbar">
-        <div class="nav-container">
+    <!-- Apple-Style Translucent Header -->
+    <header class="nav">
+        <div class="nav-content">
             <a href="#" class="brand">
-                <svg class="logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="9" stroke="#008184" stroke-width="2.5" />
-                    <path d="M7 12h3m-1.5-1.5v3M14 12h3" stroke="#008184" stroke-width="2.5" stroke-linecap="round" />
+                <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="9" stroke="#14B8A6" stroke-width="2" />
+                    <path d="M7 12h3m-1.5-1.5v3M14 12h3" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" />
                 </svg>
-                <span class="brand-text">Arduino <span class="accent-text">AI IDE</span></span>
-                <span class="badge-v">v2.3.11</span>
+                <span>Arduino <span class="teal">AI</span></span>
             </a>
-            <nav class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#demo">AI Chat UI</a>
-                <a href="#downloads">Downloads</a>
-                <a href="#docs">Documentation</a>
-                <a href="https://github.com/sanir321/arduino-ai" target="_blank" class="github-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                    </svg>
-                    GitHub
-                </a>
-            </nav>
+            <div class="nav-links">
+                <a href="#overview">Overview</a>
+                <a href="#bento">Capabilities</a>
+                <a href="#downloads">Download</a>
+                <a href="https://github.com/sanir321/arduino-ai" target="_blank" class="nav-btn">GitHub</a>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Apple-Style Minimal Hero -->
     <section class="hero">
-        <div class="hero-container">
-            <div class="hero-tag">
-                <span class="pulse-dot"></span>
-                <span>Custom AI-Enhanced Release</span>
-            </div>
-            <h1 class="hero-title">
-                Code Microcontrollers with <span class="gradient-text">Conversational Intelligence</span>
-            </h1>
-            <p class="hero-subtitle">
-                The next-generation Arduino IDE built on Theia & Electron. Write, compile, debug, and upload sketches to hardware using natural language conversations.
-            </p>
-            <div class="hero-actions">
-                <a href="#downloads" class="btn-primary" id="primary-download-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span id="download-btn-text">Download for Windows</span>
-                </a>
-                <a href="#demo" class="btn-secondary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
-                    </svg>
-                    Explore AI Chat Bar
-                </a>
-            </div>
-            <div class="hero-meta">
-                <span>Free & Open Source (AGPL-3.0)</span> • <span>Built for Windows, macOS & Linux</span> • <span>Includes Kilo AI Provider</span>
-            </div>
+        <div class="hero-badge">
+            <span>Arduino AI IDE 2.3.11</span>
         </div>
-    </section>
+        <h1 class="hero-headline">
+            Intelligence. <br>
+            <span class="gradient-text">Built for Hardware.</span>
+        </h1>
+        <p class="hero-subtext">
+            Write, compile, debug, and flash microcontroller code through effortless natural language conversation.
+        </p>
 
-    <!-- Interactive AI Chat UI Showcase -->
-    <section id="demo" class="demo-section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Redesigned Floating AI Chat Bar</h2>
-                <p>Equipped with instant hotkeys (`Ctrl+Shift+I`), floating backdrop-blur card, and live tool execution.</p>
-            </div>
-            <div class="mockup-window">
-                <div class="mockup-header">
-                    <div class="mockup-dots">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <div class="mockup-title">sketch_jul31a.ino — Arduino AI IDE</div>
-                    <div class="mockup-badge">COM4 Connected</div>
+        <div class="hero-actions">
+            <a href="#downloads" class="apple-btn primary" id="hero-download-btn">
+                <span>Download for Windows</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="https://github.com/sanir321/arduino-ai" target="_blank" class="apple-btn secondary">
+                View Source
+            </a>
+        </div>
+
+        <!-- Sleek Floating Product Frame -->
+        <div class="hero-mockup-frame">
+            <div class="mockup-bar">
+                <div class="mockup-controls">
+                    <span class="c red"></span>
+                    <span class="c yellow"></span>
+                    <span class="c green"></span>
                 </div>
-                <div class="mockup-body">
-                    <div class="mockup-chat-panel">
-                        <div class="chat-header">
-                            <div class="chat-title-group">
-                                <h3>Arduino AI Assistant</h3>
-                                <span class="badge-kilo">Kilo AI</span>
-                            </div>
-                            <span class="chat-shortcut">Ctrl+Shift+I</span>
+                <div class="mockup-label">sketch_jul31a.ino — Arduino Assistant</div>
+            </div>
+            <div class="mockup-content">
+                <div class="chat-preview">
+                    <div class="bubble user">
+                        <span>Write an ESP32 WiFi scanner sketch that lists all nearby networks every 5 seconds.</span>
+                    </div>
+                    <div class="bubble ai">
+                        <div class="code-preview">
+                            <span class="kw">#include</span> &lt;WiFi.h&gt;<br><br>
+                            <span class="kw">void</span> <span class="fn">setup</span>() {<br>
+                            &nbsp;&nbsp;Serial.<span class="fn">begin</span>(115200);<br>
+                            &nbsp;&nbsp;WiFi.<span class="fn">mode</span>(WIFI_STA);<br>
+                            }<br><br>
+                            <span class="kw">void</span> <span class="fn">loop</span>() {<br>
+                            &nbsp;&nbsp;<span class="kw">int</span> n = WiFi.<span class="fn">scanNetworks</span>();<br>
+                            &nbsp;&nbsp;delay(5000);<br>
+                            }
                         </div>
-                        <div class="chat-messages">
-                            <div class="chat-msg ai">
-                                <div class="msg-avatar">🤖</div>
-                                <div class="msg-content">
-                                    <p>Hello! I can help you write, verify, and upload sketches to your connected Arduino board. What would you like to build?</p>
-                                </div>
-                            </div>
-                            <div class="chat-msg user">
-                                <div class="msg-avatar">👤</div>
-                                <div class="msg-content">
-                                    <p>Create an ESP32 WiFi scanner sketch that prints all nearby SSIDs and RSSI values every 5 seconds.</p>
-                                </div>
-                            </div>
-                            <div class="chat-msg ai">
-                                <div class="msg-avatar">🤖</div>
-                                <div class="msg-content">
-                                    <p>Here is your complete ESP32 WiFi scanner sketch:</p>
-                                    <pre><code>#include &lt;WiFi.h&gt;
-
-void setup() {
-    Serial.begin(115200);
-    WiFi.mode(WIFI_STA);
-    WiFi.disconnect();
-    delay(100);
-}
-
-void loop() {
-    int n = WiFi.scanNetworks();
-    Serial.println("Scan done!");
-    for (int i = 0; i < n; ++i) {
-        Serial.printf("%d: %s (%d dBm)\n", i + 1, WiFi.SSID(i).c_str(), WiFi.RSSI(i));
-    }
-    delay(5000);
-}</code></pre>
-                                    <div class="tool-executed">
-                                        <span class="check-icon">✓</span> Executed <code>arduino-sketch-create</code> & <code>arduino-compile</code>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Floating Input Card -->
-                        <div class="chat-input-container">
-                            <div class="chat-input-card">
-                                <input type="text" placeholder="Ask a question or request a sketch..." value="Search for Adafruit GFX library and install it">
-                                <button class="send-btn" title="Send (Enter)">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                    </svg>
-                                </button>
-                            </div>
+                        <div class="status-tag">
+                            <span class="dot-green"></span> Verified & Flashed to COM4
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Key Features Grid -->
-    <section id="features" class="features-section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Why Choose Arduino AI IDE</h2>
-                <p>Designed for hardware hackers, students, and professional embedded developers.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Natural Language Coding</h3>
-                    <p>Describe your circuit intent and let Kilo AI generate error-free C++ code, configure pin modes, and insert necessary libraries.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔌</div>
-                    <h3>Automatic Board Discovery</h3>
-                    <p>Live detection for connected serial ports (<code>COM3</code>, <code>COM4</code>), USB DFU devices, and network mDNS boards.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛠️</div>
-                    <h3>Direct CLI Daemon Engine</h3>
-                    <p>Integrated <code>arduino-cli</code> daemon for instant sketch compilation, verification, and hardware flashing via gRPC.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
-                    <h3>Library & Board Manager</h3>
-                    <p>Search over 5,000+ open-source Arduino libraries and platforms directly inside the IDE with shortcut keybindings (<code>Ctrl+Shift+L</code>).</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⌨️</div>
-                    <h3>Global Capture Hotkeys</h3>
-                    <p>Press <code>Ctrl+Shift+I</code> anywhere to toggle the 420px left sidebar AI Assistant panel instantly without keypress collisions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🧠</div>
-                    <h3>Custom Claude Skills</h3>
-                    <p>Built-in integration for 250+ specialized scientific and development skills for automated debugging and domain analysis.</p>
+                <div class="floating-input-pill">
+                    <input type="text" placeholder="Ask Arduino Assistant..." readonly value="Create a sketch to blink the built-in LED on pin 13">
+                    <button class="send-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Downloads Section -->
+    <!-- Bento Grid Section -->
+    <section id="bento" class="bento-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Engineered for Simplicity.</h2>
+                <p>Powerful AI tools seamlessly integrated into the core Arduino workflow.</p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Bento Item 1 (Large) -->
+                <div class="bento-card span-2">
+                    <div class="bento-body">
+                        <span class="bento-icon">⚡</span>
+                        <h3>Conversational Code Generation</h3>
+                        <p>Generate full Arduino sketches with correct pin assignments, setup blocks, and external library dependencies using natural prompts.</p>
+                    </div>
+                    <div class="bento-visual code-visual">
+                        <div class="v-line"><code>const int LED_PIN = 13;</code></div>
+                        <div class="v-line"><code>pinMode(LED_PIN, OUTPUT);</code></div>
+                        <div class="v-line highlight"><code>digitalWrite(LED_PIN, HIGH);</code></div>
+                    </div>
+                </div>
+
+                <!-- Bento Item 2 -->
+                <div class="bento-card">
+                    <div class="bento-body">
+                        <span class="bento-icon">🔌</span>
+                        <h3>Port Auto-Discovery</h3>
+                        <p>Live detection for connected serial boards (<code>COM3</code>, <code>COM4</code>), USB DFU, and mDNS network devices.</p>
+                    </div>
+                </div>
+
+                <!-- Bento Item 3 -->
+                <div class="bento-card">
+                    <div class="bento-body">
+                        <span class="bento-icon">⌨️</span>
+                        <h3>Global Capture Hotkey</h3>
+                        <p>Press <code>Ctrl+Shift+I</code> anywhere to instantly toggle the 420px left sidebar AI Assistant panel.</p>
+                    </div>
+                </div>
+
+                <!-- Bento Item 4 (Large) -->
+                <div class="bento-card span-2">
+                    <div class="bento-body">
+                        <span class="bento-icon">🛠️</span>
+                        <h3>CLI Daemon Integration</h3>
+                        <p>Integrated <code>arduino-cli</code> daemon for instant background compilation, verification, and hardware flashing via gRPC.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apple-Style Download Cards -->
     <section id="downloads" class="download-section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Download Arduino AI IDE</h2>
-                <p>Select your operating system package below to start building with AI.</p>
+        <div class="container">
+            <div class="section-title center">
+                <h2>Choose Your Platform.</h2>
+                <p>Available on Windows, macOS, and Linux.</p>
             </div>
-            <div class="download-cards">
-                <!-- Windows -->
+
+            <div class="downloads-grid">
                 <div class="download-card highlight">
-                    <div class="os-icon">🪟</div>
+                    <div class="os-symbol">🪟</div>
                     <h3>Windows</h3>
-                    <p class="os-spec">Windows 10 / 11 (64-bit)</p>
-                    <a href="https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-Setup-2.3.11.exe" class="btn-download">
-                        Download .exe Installer
+                    <p class="desc">Windows 10 / 11 64-bit</p>
+                    <a href="https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-Setup-2.3.11.exe" class="apple-btn primary">
+                        Download .exe
                     </a>
-                    <span class="file-info">NSIS Setup • v2.3.11</span>
                 </div>
-                <!-- macOS -->
+
                 <div class="download-card">
-                    <div class="os-icon">🍏</div>
+                    <div class="os-symbol">🍏</div>
                     <h3>macOS</h3>
-                    <p class="os-spec">macOS 11.0+ (Universal / M-Series)</p>
-                    <a href="https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-2.3.11.dmg" class="btn-download outline">
-                        Download .dmg Package
+                    <p class="desc">macOS 11.0+ (Apple / Intel)</p>
+                    <a href="https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-2.3.11.dmg" class="apple-btn outline">
+                        Download .dmg
                     </a>
-                    <span class="file-info">Apple Disk Image • v2.3.11</span>
                 </div>
-                <!-- Linux -->
+
                 <div class="download-card">
-                    <div class="os-icon">🐧</div>
+                    <div class="os-symbol">🐧</div>
                     <h3>Linux</h3>
-                    <p class="os-spec">Ubuntu / Debian / Arch / Fedora</p>
-                    <a href="https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-2.3.11-x86_64.AppImage" class="btn-download outline">
+                    <p class="desc">Ubuntu / Debian / Arch</p>
+                    <a href="https://github.com/sanir321/arduino-ai/releases/download/v2.3.11/Arduino-AI-IDE-2.3.11-x86_64.AppImage" class="apple-btn outline">
                         Download .AppImage
                     </a>
-                    <span class="file-info">AppImage & .deb • v2.3.11</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Developer Quick Build Guide -->
-    <section id="docs" class="docs-section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Build from Source</h2>
-                <p>Run locally in 4 simple command steps.</p>
-            </div>
-            <div class="terminal-box">
-                <div class="terminal-header">
-                    <span class="term-dot red"></span>
-                    <span class="term-dot yellow"></span>
-                    <span class="term-dot green"></span>
-                    <span class="term-title">bash — quickstart</span>
-                </div>
-                <pre class="terminal-body"><code><span class="comment"># 1. Clone repository</span>
-git clone https://github.com/sanir321/arduino-ai.git
-cd arduino-ai
-
-<span class="comment"># 2. Install dependencies & CLI binaries</span>
-yarn install
-
-<span class="comment"># 3. Build extension & electron app</span>
-yarn --cwd arduino-ide-extension build
-yarn --cwd electron-app build:dev
-
-<span class="comment"># 4. Launch the IDE in development mode</span>
-yarn start</code></pre>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
+    <!-- Minimal Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <span>Arduino AI IDE — Custom Edition</span>
-                <p>Built with ❤️ using Theia IDE, Electron, and Kilo AI.</p>
-            </div>
+        <div class="container footer-content">
+            <span>Arduino AI IDE — Custom Edition</span>
             <div class="footer-links">
-                <a href="https://github.com/sanir321/arduino-ai" target="_blank">GitHub Repository</a>
-                <a href="https://github.com/sanir321/arduino-ai/blob/main/LICENSE.txt" target="_blank">AGPL-3.0 License</a>
-                <a href="https://github.com/sanir321/arduino-ai/issues" target="_blank">Report Issue</a>
+                <a href="https://github.com/sanir321/arduino-ai" target="_blank">GitHub</a>
+                <a href="https://github.com/sanir321/arduino-ai/blob/main/LICENSE.txt" target="_blank">License</a>
             </div>
         </div>
     </footer>
