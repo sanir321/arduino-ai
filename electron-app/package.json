@@ -70,14 +70,14 @@
         { "target": "deb", "arch": ["x64"] }
       ],
       "category": "Development",
-      "icon": "../arduino-ide-extension/src/browser/style/icons",
+      "icon": "../arduino-ide-extension/src/browser/style/icons/icon.png",
       "artifactName": "arduino-ai-ide-${version}-${arch}.${ext}"
     },
     "win": {
       "target": [
         { "target": "nsis", "arch": ["x64"] }
       ],
-      "icon": "../arduino-ide-extension/src/browser/style/icons",
+      "icon": "../arduino-ide-extension/src/browser/style/icons/icon.png",
       "artifactName": "arduino-ai-ide-${version}-${arch}.${ext}"
     },
     "mac": {
@@ -85,7 +85,7 @@
         { "target": "dmg", "arch": ["x64", "arm64"] }
       ],
       "category": "public.app-category.developer-tools",
-      "icon": "../arduino-ide-extension/src/browser/style/icons",
+      "icon": "../arduino-ide-extension/src/browser/style/icons/icon.png",
       "artifactName": "arduino-ai-ide-${version}-${arch}.${ext}"
     },
     "nsis": {

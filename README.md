@@ -68,7 +68,11 @@ This personalized edition includes the following custom features and UI/UX refin
 
 ## 🚀 Quick Start
 
-### Build & Run
+### Latest Release
+
+Ready-made installers are published on the [GitHub Releases](https://github.com/sanir321/arduino-ai/releases) page (`v2.3.11` and newer).
+
+### Run in Dev Mode
 
 ```bash
 # Install dependencies
@@ -82,6 +86,25 @@ yarn --cwd electron-app build:dev
 
 # Launch the IDE in dev mode
 yarn start
+```
+
+If `yarn start` opens no window, launch the Electron dev target directly (reliable fallback):
+
+```powershell
+cd electron-app
+..\node_modules\electron\dist\electron.exe . --enable-logging --remote-debugging-port=9222
+```
+
+> On Windows you can double-click the **`Arduino AI IDE (DEV).bat`** shortcut on your Desktop — it launches the same dev-mode Electron target in one click.
+
+### Verify Toolchain (optional)
+
+Dev mode needs the bundled Arduino CLI to be functional:
+
+```bash
+arduino-ide-extension\lib\node\resources\arduino-cli.exe version
+arduino-ide-extension\lib\node\resources\arduino-cli.exe core list   # e.g. arduino:avr
+arduino-ide-extension\lib\node\resources\arduino-cli.exe board list  # detects connected boards (COM3, COM4, ...)
 ```
 
 ---
